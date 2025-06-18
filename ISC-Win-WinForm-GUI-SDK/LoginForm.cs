@@ -7,14 +7,10 @@ using System;
 
 namespace ISC_Win_WinForm_GUI
 {
-    public static class TokenManager
-    {
-        public static string JwtToken { get; set; }
-    }
-
     public partial class LoginForm : Form
     {
         //public string JwtToken { get; private set; }
+        
         public string Username { get; private set; }
 
         public LoginForm()
@@ -23,11 +19,11 @@ namespace ISC_Win_WinForm_GUI
             // no Designer crie:
             // - TextBox: txtUser, txtPass (PasswordChar='*')
             // - Buttons: btnLogin, btnCancel
-            btnLogin.Click += BtnLogin_Click;
+            btnLogin.Click += btnLogin_Click;
             btnCancel.Click += (_, __) => { DialogResult = DialogResult.Cancel; };
         }
 
-        private async void BtnLogin_Click(object sender, EventArgs e)
+        private async void btnLogin_Click(object sender, EventArgs e)
         {
             string user = textBox_User.Text.Trim();
             string pass = textBox_Pass.Text;
@@ -70,5 +66,15 @@ namespace ISC_Win_WinForm_GUI
                 MessageBox.Show($"Login Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            // mesma lógica que tinhas no lambda do constructor:
+            this.DialogResult = DialogResult.Cancel;
+        }        
+    }
+    public static class TokenManager
+    {
+        public static string JwtToken { get; set; }
     }
 }

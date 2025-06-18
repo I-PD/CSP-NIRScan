@@ -52,6 +52,7 @@ namespace ISC_Win_WinForm_GUI
         };
         private readonly string _jwtToken;
         private readonly string _username;
+        private readonly string[] _args;
 
         private readonly String AppName = "CSP NIRScan ";
         private bool AppLoaded = false;
@@ -207,13 +208,28 @@ namespace ISC_Win_WinForm_GUI
         };
         public ScanReference userDefaultReference = ScanReference.New;
 
-        public MainWindow(string[] args)
+        //Novo construtor que recebe o JWT do login    
+        public MainWindow(string[] args, string jwtToken, string username)
+        {
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenManager.JwtToken);
+            _jwtToken = jwtToken;
+            _username = username;
+
+            InitializeComponent();
+            CommonUISetup(_args);
+            // Injeta o Authorization header
+            _apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken);
+        }
+
+        //public MainWindow(string[] args)
+        public void CommonUISetup(string[] args)
         {
 
             LogManager.GetRepository().Threshold = log4net.Core.Level.All;
 
-            MainWindowArgsParse(args);
-            InitializeComponent();
+            //MainWindowArgsParse(args);
+            //InitializeComponent();
             ListCOMports();
             SetupDataGridView();
             //dataGridView_Table.DataSource = _sampleListRecords;
@@ -272,21 +288,10 @@ namespace ISC_Win_WinForm_GUI
             initBackgroundWorker();
             // Finished loading components
             AppLoaded = true;
-        }
-
-        //Novo construtor que recebe o JWT do login    
-        public MainWindow(string[] args, string jwtToken, string username) : this(args)
-        {
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenManager.JwtToken);
-            _jwtToken = jwtToken;
-            _username = username;
-            // Injeta o Authorization header
-            _apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken);
-        }
+        /*}
 
         private void MainWindowArgsParse(string[] args)
-        {
+        {*/
             if (args == null)
                 return;
 
@@ -4206,7 +4211,8 @@ namespace ISC_Win_WinForm_GUI
             if (reload)
             {
                 this.Dispose();
-                new MainWindow(null).ShowDialog();
+                //new MainWindow(null).ShowDialog();
+                new MainWindow(_args, _jwtToken, _username).ShowDialog();
             }
         }
         #endregion
@@ -8911,6 +8917,7 @@ namespace ISC_Win_WinForm_GUI
             };
         }
 
+
         public class ScanRecord
         {
             public string Position { get; set; }
@@ -8943,13 +8950,6 @@ namespace ISC_Win_WinForm_GUI
             //public DateTime timestamp { get; set; }
             [JsonProperty("parameters")]
             public Dictionary<string, object> parameters { get; set; } // Additional parameters related to the sample
-        }
-
-        public class SpectralScan
-        {
-            public string Position { get; set; }
-            public string Type { get; set; }
-            public double[] Absorbance { get; set; }
         }
 
         private void PopulateScanRecord(ScanRecord rec)
@@ -9018,93 +9018,6 @@ namespace ISC_Win_WinForm_GUI
                   $"UploadSample exception at position {usp.position}: {ex.Message}",
                   "API Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-
-        /*private async Task PushUploadSampleAsync(UploadSample usp)
-        {
-            try
-            {
-                var json = JsonConvert.SerializeObject(new[] { usp });
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _apiClient.PostAsync("upload-sample/", content);
-                if (!response.IsSuccessStatusCode)
-                {
-                    MessageBox.Show(
-                        $"UploadSample failed at position {usp.position}: {response.StatusCode}",
-                        "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    $"UploadSample exception at position {usp.position}: {ex.Message}",
-                    "API Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-
-        public async Task<System.Drawing.Image> LoadHeatmapImageAsync(string payloadJson)
-        {
-            // 1) Prepara o corpo da requisição
-            System.Net.Http.StringContent content =
-                new System.Net.Http.StringContent(
-                    payloadJson,
-                    System.Text.Encoding.UTF8,
-                    "application/json"
-                );
-
-            // 2) Faz o POST para "api/analyze/" usando o _apiClient que já está configurado
-            var response = await _apiClient.PostAsync("api/analyze/", content);
-
-            // 2.1) Se o status não for 2xx, lança exceção para tratar lá em cima
-            response.EnsureSuccessStatusCode();
-
-            // 3) Lê o JSON bruto em forma de string
-            string raw = await response.Content.ReadAsStringAsync();
-
-            // 3.1) (Opcional para debug) Console.WriteLine("Resposta da API: " + raw);
-
-            // 4) Faz o parse do JSON e extrai o campo "heatmap_base64"
-            string base64 = Newtonsoft.Json.Linq.JObject
-                                .Parse(raw)
-                                .Value<string>("heatmap_base64");
-            if (string.IsNullOrEmpty(base64))
-            {
-                throw new System.Exception(
-                    "O JSON retornado não continha \"heatmap_base64\" ou ele estava vazio.");
-            }
-
-            // 5) Converte a string Base64 em um array de bytes
-            byte[] bytes = System.Convert.FromBase64String(base64);
-
-            // 6) Cria um MemoryStream a partir dos bytes e constroi a Image
-            System.IO.MemoryStream ms = new System.IO.MemoryStream(bytes);
-            System.Drawing.Image img = System.Drawing.Image.FromStream(ms);
-
-            // 7) Retorna a Image (podemos deixar o MemoryStream em aberto, 
-            //    pois a Image já carregou todos os bytes internamente)
-            return img;
-        }*/
-        public async Task<System.Drawing.Image> LoadHeatmapImageAsync(string payloadJson)
-        {
-            // 1) Faz GET no endpoint de heatmap
-            var response = await _apiClient.GetAsync("api/heatmap/");
-            //var content = new StringContent(payloadJson, Encoding.UTF8, "application/json");
-            // POST em vez de GET:
-            //var response = await _apiClient.PostAsync("api/heatmap/", content);
-            response.EnsureSuccessStatusCode();
-
-            // 2) Lê o JSON e extrai base64
-            string raw = await response.Content.ReadAsStringAsync();
-            string base64 = JObject.Parse(raw).Value<string>("heatmap_base64");
-            if (string.IsNullOrEmpty(base64))
-                throw new Exception("Answer didn't contain heatmap_base64.");
-
-            // 3) Converte para Image
-            byte[] bytes = Convert.FromBase64String(base64);
-            var ms = new MemoryStream(bytes);
-            return Image.FromStream(ms);
         }
 
         public void SetupDataGridView()
@@ -9669,6 +9582,21 @@ namespace ISC_Win_WinForm_GUI
             this.Text = "Sequence complete";
         }
 
+        private async Task<Image> LoadPlotAsync(string endpoint, string jsonField)
+        {
+            var resp = await _apiClient.GetAsync(endpoint);
+            resp.EnsureSuccessStatusCode();
+
+            string raw = await resp.Content.ReadAsStringAsync();
+            string b64 = JObject.Parse(raw).Value<string>(jsonField);
+            if (string.IsNullOrEmpty(b64))
+                throw new Exception($"Resposta não continha \"{jsonField}\".");
+
+            byte[] bytes = Convert.FromBase64String(b64);
+            var ms = new MemoryStream(bytes);
+            return Image.FromStream(ms);
+        }
+
         private async void button_TestSequence_Click(object sender, EventArgs e)
         {
             if (!ValidateSampleList()) return;
@@ -10045,5 +9973,7 @@ namespace ISC_Win_WinForm_GUI
             serialPort.WriteLine("G1 X-26.0 Y-6.0 Z8.0 F2000");
             serialPort.WriteLine("G1 Z0.0 F1500");
         }
+
+       
     }
 }

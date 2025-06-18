@@ -133,7 +133,6 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiClientHolder.cs" />
     <Compile Include="APIs.cs" />
     <Compile Include="BleMsgForm.cs">
       <SubType>Form</SubType>
@@ -155,9 +154,16 @@
     <Compile Include="LicenseWindow.xaml.Designer.cs">
       <DependentUpon>LicenseWindow.xaml.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoginForm.cs" />
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginForm1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LoginForm.resx</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
@@ -185,6 +191,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LoginForm1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

@@ -28,62 +28,60 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelUsername = new System.Windows.Forms.Label();
-            this.labelPass = new System.Windows.Forms.Label();
+            this.label_User = new System.Windows.Forms.Label();
+            this.label_Pass = new System.Windows.Forms.Label();
             this.textBox_User = new System.Windows.Forms.TextBox();
             this.textBox_Pass = new System.Windows.Forms.TextBox();
             this.btnLogin = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // labelUsername
+            // label_User
             // 
-            this.labelUsername.AutoSize = true;
-            this.labelUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUsername.Location = new System.Drawing.Point(39, 31);
-            this.labelUsername.Name = "labelUsername";
-            this.labelUsername.Size = new System.Drawing.Size(108, 25);
-            this.labelUsername.TabIndex = 0;
-            this.labelUsername.Text = "Username:";
+            this.label_User.AutoSize = true;
+            this.label_User.Location = new System.Drawing.Point(21, 35);
+            this.label_User.Name = "label_User";
+            this.label_User.Size = new System.Drawing.Size(99, 20);
+            this.label_User.TabIndex = 0;
+            this.label_User.Text = "Username : ";
             // 
-            // labelPass
+            // label_Pass
             // 
-            this.labelPass.AutoSize = true;
-            this.labelPass.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPass.Location = new System.Drawing.Point(39, 80);
-            this.labelPass.Name = "labelPass";
-            this.labelPass.Size = new System.Drawing.Size(104, 25);
-            this.labelPass.TabIndex = 1;
-            this.labelPass.Text = "Password:";
+            this.label_Pass.AutoSize = true;
+            this.label_Pass.Location = new System.Drawing.Point(21, 94);
+            this.label_Pass.Name = "label_Pass";
+            this.label_Pass.Size = new System.Drawing.Size(95, 20);
+            this.label_Pass.TabIndex = 1;
+            this.label_Pass.Text = "Password : ";
             // 
             // textBox_User
             // 
-            this.textBox_User.Location = new System.Drawing.Point(170, 35);
+            this.textBox_User.Location = new System.Drawing.Point(126, 32);
             this.textBox_User.Name = "textBox_User";
-            this.textBox_User.Size = new System.Drawing.Size(131, 22);
+            this.textBox_User.Size = new System.Drawing.Size(150, 22);
             this.textBox_User.TabIndex = 2;
             // 
             // textBox_Pass
             // 
-            this.textBox_Pass.Location = new System.Drawing.Point(170, 84);
+            this.textBox_Pass.Location = new System.Drawing.Point(126, 91);
             this.textBox_Pass.Name = "textBox_Pass";
-            this.textBox_Pass.Size = new System.Drawing.Size(131, 22);
+            this.textBox_Pass.Size = new System.Drawing.Size(150, 22);
             this.textBox_Pass.TabIndex = 3;
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(117, 128);
+            this.btnLogin.Location = new System.Drawing.Point(45, 153);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(104, 36);
+            this.btnLogin.Size = new System.Drawing.Size(91, 39);
             this.btnLogin.TabIndex = 4;
-            this.btnLogin.Text = "Enter";
+            this.btnLogin.Text = "Login";
             this.btnLogin.UseVisualStyleBackColor = true;
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(117, 187);
+            this.btnCancel.Location = new System.Drawing.Point(174, 153);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(104, 36);
+            this.btnCancel.Size = new System.Drawing.Size(91, 39);
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -92,13 +90,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 286);
+            this.ClientSize = new System.Drawing.Size(330, 264);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.textBox_Pass);
             this.Controls.Add(this.textBox_User);
-            this.Controls.Add(this.labelPass);
-            this.Controls.Add(this.labelUsername);
+            this.Controls.Add(this.label_Pass);
+            this.Controls.Add(this.label_User);
             this.Name = "LoginForm";
             this.Text = "LoginForm";
             this.ResumeLayout(false);
@@ -108,8 +106,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Label labelUsername;
-        private System.Windows.Forms.Label labelPass;
+        private System.Windows.Forms.Label label_User;
+        private System.Windows.Forms.Label label_Pass;
         private System.Windows.Forms.TextBox textBox_User;
         private System.Windows.Forms.TextBox textBox_Pass;
         private System.Windows.Forms.Button btnLogin;

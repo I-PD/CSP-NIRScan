@@ -59,9 +59,6 @@ namespace ISC_Win_WinForm_GUI
             this.label_DevInfoLampUsageValue = new System.Windows.Forms.Label();
             this.Label_BleNameValue = new System.Windows.Forms.Label();
             this.Label_CurrentConfig = new System.Windows.Forms.Label();
-            this.checkBox_zoom = new System.Windows.Forms.CheckBox();
-            this.rb_tooltip4single = new System.Windows.Forms.RadioButton();
-            this.rb_tooltip4multi = new System.Windows.Forms.RadioButton();
             this.label14 = new System.Windows.Forms.Label();
             this.label94 = new System.Windows.Forms.Label();
             this.ListBox_TargetCfgs = new System.Windows.Forms.ListBox();
@@ -76,6 +73,8 @@ namespace ISC_Win_WinForm_GUI
             this.Button_SaveNumAvgToConfig = new System.Windows.Forms.Button();
             this.textBox_ScanAvg = new System.Windows.Forms.TextBox();
             this.label34 = new System.Windows.Forms.Label();
+            this.rb_tooltip4single = new System.Windows.Forms.RadioButton();
+            this.rb_tooltip4multi = new System.Windows.Forms.RadioButton();
             this.timer_AutoClickScanButton = new System.Windows.Forms.Timer(this.components);
             this.tabPage_Utility = new System.Windows.Forms.TabPage();
             this.GroupBox_LogFile = new System.Windows.Forms.GroupBox();
@@ -187,8 +186,8 @@ namespace ISC_Win_WinForm_GUI
             this.TextBox_ModelName = new System.Windows.Forms.TextBox();
             this.tabPage_Scan = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.panel_Tooltips = new System.Windows.Forms.Panel();
-            this.checkBox_tooltip = new System.Windows.Forms.CheckBox();
+            this.button_ClearPlots = new System.Windows.Forms.Button();
+            this.Button_ClearAllErrors = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.MyChart = new LiveCharts.WinForms.CartesianChart();
             this.Check_Overlay = new System.Windows.Forms.CheckBox();
@@ -383,15 +382,20 @@ namespace ISC_Win_WinForm_GUI
             this.button_TestSequence = new System.Windows.Forms.Button();
             this.dataGridView_Table = new System.Windows.Forms.DataGridView();
             this.tabPage_ChemicalImage = new System.Windows.Forms.TabPage();
+            this.label_CI = new System.Windows.Forms.Label();
             this.pictureBox_heatMap = new System.Windows.Forms.PictureBox();
+            this.checkBox_tooltip = new System.Windows.Forms.CheckBox();
             this.tabControl_MainFunctions = new System.Windows.Forms.TabControl();
             this.tabPage_PosData = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.labelCImage = new System.Windows.Forms.Label();
+            this.textBox_Subtype = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBox_Material = new System.Windows.Forms.TextBox();
+            this.labelModelingMaterial = new System.Windows.Forms.Label();
             this.labelPredictions = new System.Windows.Forms.Label();
             this.dataGridView_Predicitons = new System.Windows.Forms.DataGridView();
-            this.button_ClearPlots = new System.Windows.Forms.Button();
-            this.Button_ClearAllErrors = new System.Windows.Forms.Button();
+            this.btnTrain = new System.Windows.Forms.Button();
+            this.pictureBox_BestModel = new System.Windows.Forms.PictureBox();
             this.statusStrip1.SuspendLayout();
             this.GroupBox_ScanAvg.SuspendLayout();
             this.tabPage_Utility.SuspendLayout();
@@ -413,7 +417,6 @@ namespace ISC_Win_WinForm_GUI
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.panel_Tooltips.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabScanPositions.SuspendLayout();
             this.tabPage_SavePositions.SuspendLayout();
@@ -441,6 +444,7 @@ namespace ISC_Win_WinForm_GUI
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Predicitons)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_BestModel)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -448,10 +452,10 @@ namespace ISC_Win_WinForm_GUI
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatus_DeviceStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 823);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 816);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 18, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1578, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1578, 33);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -459,7 +463,7 @@ namespace ISC_Win_WinForm_GUI
             // 
             this.toolStripStatus_DeviceStatus.Image = ((System.Drawing.Image)(resources.GetObject("toolStripStatus_DeviceStatus.Image")));
             this.toolStripStatus_DeviceStatus.Name = "toolStripStatus_DeviceStatus";
-            this.toolStripStatus_DeviceStatus.Size = new System.Drawing.Size(155, 20);
+            this.toolStripStatus_DeviceStatus.Size = new System.Drawing.Size(155, 27);
             this.toolStripStatus_DeviceStatus.Text = "Device Disconnect!";
             // 
             // label_ErrorStatus
@@ -467,7 +471,7 @@ namespace ISC_Win_WinForm_GUI
             this.label_ErrorStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label_ErrorStatus.AutoSize = true;
             this.label_ErrorStatus.BackColor = System.Drawing.Color.Transparent;
-            this.label_ErrorStatus.Location = new System.Drawing.Point(1025, -338);
+            this.label_ErrorStatus.Location = new System.Drawing.Point(1281, -635);
             this.label_ErrorStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_ErrorStatus.Name = "label_ErrorStatus";
             this.label_ErrorStatus.Size = new System.Drawing.Size(0, 17);
@@ -676,49 +680,6 @@ namespace ISC_Win_WinForm_GUI
             this.toolTip1.SetToolTip(this.Label_CurrentConfig, "Current scan configuration for scan.\r\nMouse click to quick change configuration.");
             this.Label_CurrentConfig.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Label_CurrentConfig_MouseClick);
             // 
-            // checkBox_zoom
-            // 
-            this.checkBox_zoom.AutoSize = true;
-            this.checkBox_zoom.Location = new System.Drawing.Point(562, 731);
-            this.checkBox_zoom.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBox_zoom.Name = "checkBox_zoom";
-            this.checkBox_zoom.Size = new System.Drawing.Size(110, 21);
-            this.checkBox_zoom.TabIndex = 13;
-            this.checkBox_zoom.TabStop = false;
-            this.checkBox_zoom.Text = "Zoom and Pan";
-            this.toolTip1.SetToolTip(this.checkBox_zoom, "Select and mouse right-click to change zoom options");
-            this.checkBox_zoom.UseVisualStyleBackColor = true;
-            this.checkBox_zoom.CheckedChanged += new System.EventHandler(this.checkBox_zoom_CheckedChanged);
-            this.checkBox_zoom.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkBox_zoom_MouseClick);
-            // 
-            // rb_tooltip4single
-            // 
-            this.rb_tooltip4single.AutoSize = true;
-            this.rb_tooltip4single.Checked = true;
-            this.rb_tooltip4single.Location = new System.Drawing.Point(89, 6);
-            this.rb_tooltip4single.Margin = new System.Windows.Forms.Padding(2);
-            this.rb_tooltip4single.Name = "rb_tooltip4single";
-            this.rb_tooltip4single.Size = new System.Drawing.Size(62, 21);
-            this.rb_tooltip4single.TabIndex = 13;
-            this.rb_tooltip4single.TabStop = true;
-            this.rb_tooltip4single.Text = "Single";
-            this.toolTip1.SetToolTip(this.rb_tooltip4single, "Show the only Y value of the selected line ");
-            this.rb_tooltip4single.UseVisualStyleBackColor = true;
-            this.rb_tooltip4single.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_Tooltips_MouseClick);
-            // 
-            // rb_tooltip4multi
-            // 
-            this.rb_tooltip4multi.AutoSize = true;
-            this.rb_tooltip4multi.Location = new System.Drawing.Point(170, 6);
-            this.rb_tooltip4multi.Margin = new System.Windows.Forms.Padding(2);
-            this.rb_tooltip4multi.Name = "rb_tooltip4multi";
-            this.rb_tooltip4multi.Size = new System.Drawing.Size(76, 21);
-            this.rb_tooltip4multi.TabIndex = 14;
-            this.rb_tooltip4multi.Text = "Multiple";
-            this.toolTip1.SetToolTip(this.rb_tooltip4multi, "Show all the Y values of the same selected X ");
-            this.rb_tooltip4multi.UseVisualStyleBackColor = true;
-            this.rb_tooltip4multi.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_Tooltips_MouseClick);
-            // 
             // label14
             // 
             this.label14.ForeColor = System.Drawing.Color.Blue;
@@ -899,6 +860,20 @@ namespace ISC_Win_WinForm_GUI
             this.label34.Text = "Num Scans of Average : ";
             this.toolTip1.SetToolTip(this.label34, "The value is temporarily changed only. Click \"Apply to Config\" to save it into th" +
         "e config permanently.");
+            // 
+            // rb_tooltip4single
+            // 
+            this.rb_tooltip4single.Location = new System.Drawing.Point(0, 0);
+            this.rb_tooltip4single.Name = "rb_tooltip4single";
+            this.rb_tooltip4single.Size = new System.Drawing.Size(104, 24);
+            this.rb_tooltip4single.TabIndex = 0;
+            // 
+            // rb_tooltip4multi
+            // 
+            this.rb_tooltip4multi.Location = new System.Drawing.Point(0, 0);
+            this.rb_tooltip4multi.Name = "rb_tooltip4multi";
+            this.rb_tooltip4multi.Size = new System.Drawing.Size(104, 24);
+            this.rb_tooltip4multi.TabIndex = 0;
             // 
             // timer_AutoClickScanButton
             // 
@@ -2175,9 +2150,7 @@ namespace ISC_Win_WinForm_GUI
             // 
             this.splitContainer1.Panel1.Controls.Add(this.button_ClearPlots);
             this.splitContainer1.Panel1.Controls.Add(this.Button_ClearAllErrors);
-            this.splitContainer1.Panel1.Controls.Add(this.panel_Tooltips);
             this.splitContainer1.Panel1.Controls.Add(this.panel1);
-            this.splitContainer1.Panel1.Controls.Add(this.checkBox_zoom);
             this.splitContainer1.Panel1.Controls.Add(this.Check_Overlay);
             this.splitContainer1.Panel1.Controls.Add(this.RadioButton_Reference);
             this.splitContainer1.Panel1.Controls.Add(this.RadioButton_Intensity);
@@ -2197,31 +2170,24 @@ namespace ISC_Win_WinForm_GUI
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             // 
-            // panel_Tooltips
+            // button_ClearPlots
             // 
-            this.panel_Tooltips.Controls.Add(this.rb_tooltip4multi);
-            this.panel_Tooltips.Controls.Add(this.rb_tooltip4single);
-            this.panel_Tooltips.Controls.Add(this.checkBox_tooltip);
-            this.panel_Tooltips.Location = new System.Drawing.Point(34, 758);
-            this.panel_Tooltips.Margin = new System.Windows.Forms.Padding(2);
-            this.panel_Tooltips.Name = "panel_Tooltips";
-            this.panel_Tooltips.Size = new System.Drawing.Size(264, 30);
-            this.panel_Tooltips.TabIndex = 17;
-            this.panel_Tooltips.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_Tooltips_MouseClick);
+            this.button_ClearPlots.Location = new System.Drawing.Point(761, 754);
+            this.button_ClearPlots.Name = "button_ClearPlots";
+            this.button_ClearPlots.Size = new System.Drawing.Size(87, 29);
+            this.button_ClearPlots.TabIndex = 13;
+            this.button_ClearPlots.Text = "Clear Plots";
+            this.button_ClearPlots.UseVisualStyleBackColor = true;
             // 
-            // checkBox_tooltip
+            // Button_ClearAllErrors
             // 
-            this.checkBox_tooltip.AutoSize = true;
-            this.checkBox_tooltip.Location = new System.Drawing.Point(5, 8);
-            this.checkBox_tooltip.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBox_tooltip.Name = "checkBox_tooltip";
-            this.checkBox_tooltip.Size = new System.Drawing.Size(68, 21);
-            this.checkBox_tooltip.TabIndex = 12;
-            this.checkBox_tooltip.TabStop = false;
-            this.checkBox_tooltip.Text = "Tooltip";
-            this.checkBox_tooltip.UseVisualStyleBackColor = true;
-            this.checkBox_tooltip.CheckedChanged += new System.EventHandler(this.checkBox_tooltip_CheckedChanged);
-            this.checkBox_tooltip.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel_Tooltips_MouseClick);
+            this.Button_ClearAllErrors.Location = new System.Drawing.Point(867, 754);
+            this.Button_ClearAllErrors.Margin = new System.Windows.Forms.Padding(4);
+            this.Button_ClearAllErrors.Name = "Button_ClearAllErrors";
+            this.Button_ClearAllErrors.Size = new System.Drawing.Size(159, 29);
+            this.Button_ClearAllErrors.TabIndex = 12;
+            this.Button_ClearAllErrors.Text = "Clear Device Errors";
+            this.Button_ClearAllErrors.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -2246,7 +2212,7 @@ namespace ISC_Win_WinForm_GUI
             // Check_Overlay
             // 
             this.Check_Overlay.AutoSize = true;
-            this.Check_Overlay.Location = new System.Drawing.Point(694, 731);
+            this.Check_Overlay.Location = new System.Drawing.Point(539, 732);
             this.Check_Overlay.Margin = new System.Windows.Forms.Padding(4);
             this.Check_Overlay.Name = "Check_Overlay";
             this.Check_Overlay.Size = new System.Drawing.Size(73, 21);
@@ -2328,7 +2294,7 @@ namespace ISC_Win_WinForm_GUI
             this.tabScanPositions.Controls.Add(this.tabPage_SaveScans);
             this.tabScanPositions.Controls.Add(this.tabPage_PickTable);
             this.tabScanPositions.Controls.Add(this.tabPage_ChemicalImage);
-            this.tabScanPositions.Location = new System.Drawing.Point(0, 0);
+            this.tabScanPositions.Location = new System.Drawing.Point(-4, 0);
             this.tabScanPositions.Margin = new System.Windows.Forms.Padding(4);
             this.tabScanPositions.Name = "tabScanPositions";
             this.tabScanPositions.SelectedIndex = 0;
@@ -4518,6 +4484,7 @@ namespace ISC_Win_WinForm_GUI
             // 
             // tabPage_ChemicalImage
             // 
+            this.tabPage_ChemicalImage.Controls.Add(this.label_CI);
             this.tabPage_ChemicalImage.Controls.Add(this.pictureBox_heatMap);
             this.tabPage_ChemicalImage.Location = new System.Drawing.Point(4, 24);
             this.tabPage_ChemicalImage.Margin = new System.Windows.Forms.Padding(4);
@@ -4528,13 +4495,30 @@ namespace ISC_Win_WinForm_GUI
             this.tabPage_ChemicalImage.Text = "Chemical Image";
             this.tabPage_ChemicalImage.UseVisualStyleBackColor = true;
             // 
+            // label_CI
+            // 
+            this.label_CI.AutoSize = true;
+            this.label_CI.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_CI.Location = new System.Drawing.Point(190, 20);
+            this.label_CI.Name = "label_CI";
+            this.label_CI.Size = new System.Drawing.Size(131, 23);
+            this.label_CI.TabIndex = 10;
+            this.label_CI.Text = "Chemical Image";
+            // 
             // pictureBox_heatMap
             // 
-            this.pictureBox_heatMap.Location = new System.Drawing.Point(3, 25);
+            this.pictureBox_heatMap.Location = new System.Drawing.Point(7, 50);
             this.pictureBox_heatMap.Name = "pictureBox_heatMap";
             this.pictureBox_heatMap.Size = new System.Drawing.Size(478, 307);
             this.pictureBox_heatMap.TabIndex = 9;
             this.pictureBox_heatMap.TabStop = false;
+            // 
+            // checkBox_tooltip
+            // 
+            this.checkBox_tooltip.Location = new System.Drawing.Point(0, 0);
+            this.checkBox_tooltip.Name = "checkBox_tooltip";
+            this.checkBox_tooltip.Size = new System.Drawing.Size(104, 24);
+            this.checkBox_tooltip.TabIndex = 0;
             // 
             // tabControl_MainFunctions
             // 
@@ -4546,7 +4530,7 @@ namespace ISC_Win_WinForm_GUI
             this.tabControl_MainFunctions.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl_MainFunctions.Name = "tabControl_MainFunctions";
             this.tabControl_MainFunctions.SelectedIndex = 0;
-            this.tabControl_MainFunctions.Size = new System.Drawing.Size(1578, 823);
+            this.tabControl_MainFunctions.Size = new System.Drawing.Size(1578, 808);
             this.tabControl_MainFunctions.TabIndex = 2;
             this.tabControl_MainFunctions.SelectedIndexChanged += new System.EventHandler(this.tabControl_MainFunctions_SelectedIndexChanged);
             this.tabControl_MainFunctions.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabPage_Selecting);
@@ -4557,7 +4541,7 @@ namespace ISC_Win_WinForm_GUI
             this.tabPage_PosData.Controls.Add(this.splitContainer2);
             this.tabPage_PosData.Location = new System.Drawing.Point(4, 24);
             this.tabPage_PosData.Name = "tabPage_PosData";
-            this.tabPage_PosData.Size = new System.Drawing.Size(1570, 795);
+            this.tabPage_PosData.Size = new System.Drawing.Size(1570, 780);
             this.tabPage_PosData.TabIndex = 2;
             this.tabPage_PosData.Text = "Processed Data";
             this.tabPage_PosData.UseVisualStyleBackColor = true;
@@ -4570,24 +4554,54 @@ namespace ISC_Win_WinForm_GUI
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.labelCImage);
+            this.splitContainer2.Panel1.Controls.Add(this.pictureBox_BestModel);
+            this.splitContainer2.Panel1.Controls.Add(this.btnTrain);
+            this.splitContainer2.Panel1.Controls.Add(this.textBox_Subtype);
+            this.splitContainer2.Panel1.Controls.Add(this.label7);
+            this.splitContainer2.Panel1.Controls.Add(this.textBox_Material);
+            this.splitContainer2.Panel1.Controls.Add(this.labelModelingMaterial);
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.labelPredictions);
             this.splitContainer2.Panel2.Controls.Add(this.dataGridView_Predicitons);
-            this.splitContainer2.Size = new System.Drawing.Size(1570, 795);
+            this.splitContainer2.Size = new System.Drawing.Size(1570, 780);
             this.splitContainer2.SplitterDistance = 818;
             this.splitContainer2.TabIndex = 0;
             // 
-            // labelCImage
+            // textBox_Subtype
             // 
-            this.labelCImage.AutoSize = true;
-            this.labelCImage.Location = new System.Drawing.Point(363, 42);
-            this.labelCImage.Name = "labelCImage";
-            this.labelCImage.Size = new System.Drawing.Size(98, 17);
-            this.labelCImage.TabIndex = 2;
-            this.labelCImage.Text = "Chemical Image";
+            this.textBox_Subtype.Location = new System.Drawing.Point(132, 82);
+            this.textBox_Subtype.Name = "textBox_Subtype";
+            this.textBox_Subtype.Size = new System.Drawing.Size(168, 24);
+            this.textBox_Subtype.TabIndex = 5;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(32, 82);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(88, 24);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "Subtype :";
+            // 
+            // textBox_Material
+            // 
+            this.textBox_Material.Location = new System.Drawing.Point(132, 39);
+            this.textBox_Material.Name = "textBox_Material";
+            this.textBox_Material.Size = new System.Drawing.Size(168, 24);
+            this.textBox_Material.TabIndex = 3;
+            // 
+            // labelModelingMaterial
+            // 
+            this.labelModelingMaterial.AutoSize = true;
+            this.labelModelingMaterial.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelModelingMaterial.Location = new System.Drawing.Point(32, 38);
+            this.labelModelingMaterial.Name = "labelModelingMaterial";
+            this.labelModelingMaterial.Size = new System.Drawing.Size(91, 24);
+            this.labelModelingMaterial.TabIndex = 2;
+            this.labelModelingMaterial.Text = "Material :";
             // 
             // labelPredictions
             // 
@@ -4608,30 +4622,28 @@ namespace ISC_Win_WinForm_GUI
             this.dataGridView_Predicitons.Size = new System.Drawing.Size(240, 568);
             this.dataGridView_Predicitons.TabIndex = 0;
             // 
-            // button_ClearPlots
+            // btnTrain
             // 
-            this.button_ClearPlots.Location = new System.Drawing.Point(761, 754);
-            this.button_ClearPlots.Name = "button_ClearPlots";
-            this.button_ClearPlots.Size = new System.Drawing.Size(87, 29);
-            this.button_ClearPlots.TabIndex = 13;
-            this.button_ClearPlots.Text = "Clear Plots";
-            this.button_ClearPlots.UseVisualStyleBackColor = true;
+            this.btnTrain.Location = new System.Drawing.Point(432, 42);
+            this.btnTrain.Name = "btnTrain";
+            this.btnTrain.Size = new System.Drawing.Size(149, 67);
+            this.btnTrain.TabIndex = 6;
+            this.btnTrain.Text = "Train Model";
+            this.btnTrain.UseVisualStyleBackColor = true;
             // 
-            // Button_ClearAllErrors
+            // pictureBox_BestModel
             // 
-            this.Button_ClearAllErrors.Location = new System.Drawing.Point(867, 754);
-            this.Button_ClearAllErrors.Margin = new System.Windows.Forms.Padding(4);
-            this.Button_ClearAllErrors.Name = "Button_ClearAllErrors";
-            this.Button_ClearAllErrors.Size = new System.Drawing.Size(159, 29);
-            this.Button_ClearAllErrors.TabIndex = 12;
-            this.Button_ClearAllErrors.Text = "Clear Device Errors";
-            this.Button_ClearAllErrors.UseVisualStyleBackColor = true;
+            this.pictureBox_BestModel.Location = new System.Drawing.Point(36, 144);
+            this.pictureBox_BestModel.Name = "pictureBox_BestModel";
+            this.pictureBox_BestModel.Size = new System.Drawing.Size(764, 499);
+            this.pictureBox_BestModel.TabIndex = 7;
+            this.pictureBox_BestModel.TabStop = false;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1578, 849);
+            this.ClientSize = new System.Drawing.Size(1262, 679);
             this.Controls.Add(this.label_ErrorStatus);
             this.Controls.Add(this.tabControl_MainFunctions);
             this.Controls.Add(this.statusStrip1);
@@ -4678,8 +4690,6 @@ namespace ISC_Win_WinForm_GUI
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.panel_Tooltips.ResumeLayout(false);
-            this.panel_Tooltips.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.tabScanPositions.ResumeLayout(false);
             this.tabPage_SavePositions.ResumeLayout(false);
@@ -4710,6 +4720,7 @@ namespace ISC_Win_WinForm_GUI
             this.tabPage_PickTable.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Table)).EndInit();
             this.tabPage_ChemicalImage.ResumeLayout(false);
+            this.tabPage_ChemicalImage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_heatMap)).EndInit();
             this.tabControl_MainFunctions.ResumeLayout(false);
             this.tabPage_PosData.ResumeLayout(false);
@@ -4720,6 +4731,7 @@ namespace ISC_Win_WinForm_GUI
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Predicitons)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_BestModel)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -5030,13 +5042,11 @@ namespace ISC_Win_WinForm_GUI
         private TabPage tabPage_PickTable;
         private DataGridView dataGridView_Table;
         private SplitContainer splitContainer1;
-        private Panel panel_Tooltips;
         private RadioButton rb_tooltip4multi;
         private RadioButton rb_tooltip4single;
         private CheckBox checkBox_tooltip;
         private Panel panel1;
         private CartesianChart MyChart;
-        private CheckBox checkBox_zoom;
         private CheckBox Check_Overlay;
         private RadioButton RadioButton_Reference;
         private RadioButton RadioButton_Intensity;
@@ -5050,7 +5060,7 @@ namespace ISC_Win_WinForm_GUI
         private Button button_Home;
         private TabPage tabPage_PosData;
         private SplitContainer splitContainer2;
-        private Label labelCImage;
+        private Label labelModelingMaterial;
         private Label labelPredictions;
         private DataGridView dataGridView_Predicitons;
         private Label label3;
@@ -5084,6 +5094,12 @@ namespace ISC_Win_WinForm_GUI
         private PictureBox pictureBox_heatMap;
         private Button button_ClearPlots;
         private Button Button_ClearAllErrors;
+        private Label label_CI;
+        private TextBox textBox_Material;
+        private TextBox textBox_Subtype;
+        private Label label7;
+        private Button btnTrain;
+        private PictureBox pictureBox_BestModel;
     }
 }
 

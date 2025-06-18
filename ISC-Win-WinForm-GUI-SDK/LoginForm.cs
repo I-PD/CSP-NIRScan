@@ -7,7 +7,7 @@ using System;
 
 namespace ISC_Win_WinForm_GUI
 {
-    public partial class LoginForm : Form
+    internal partial class LoginForm : Form
     {
         //public string JwtToken { get; private set; }
         
@@ -71,7 +71,8 @@ namespace ISC_Win_WinForm_GUI
         {
             // mesma lógica que tinhas no lambda do constructor:
             this.DialogResult = DialogResult.Cancel;
-        }        
+        }
+
     }
     public static class TokenManager
     {

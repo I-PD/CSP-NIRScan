@@ -41,7 +41,7 @@
             this.label_User.AutoSize = true;
             this.label_User.Location = new System.Drawing.Point(21, 35);
             this.label_User.Name = "label_User";
-            this.label_User.Size = new System.Drawing.Size(99, 20);
+            this.label_User.Size = new System.Drawing.Size(79, 16);
             this.label_User.TabIndex = 0;
             this.label_User.Text = "Username : ";
             // 
@@ -50,7 +50,7 @@
             this.label_Pass.AutoSize = true;
             this.label_Pass.Location = new System.Drawing.Point(21, 94);
             this.label_Pass.Name = "label_Pass";
-            this.label_Pass.Size = new System.Drawing.Size(95, 20);
+            this.label_Pass.Size = new System.Drawing.Size(76, 16);
             this.label_Pass.TabIndex = 1;
             this.label_Pass.Text = "Password : ";
             // 
@@ -76,6 +76,7 @@
             this.btnLogin.TabIndex = 4;
             this.btnLogin.Text = "Login";
             this.btnLogin.UseVisualStyleBackColor = true;
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
             // btnCancel
             // 
@@ -85,6 +86,7 @@
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // LoginForm
             // 

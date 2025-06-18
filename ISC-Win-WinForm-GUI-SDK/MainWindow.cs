@@ -661,7 +661,7 @@ namespace ISC_Win_WinForm_GUI
         }
         #endregion
 
-        #region connect device
+        #region Connect Device
         private void Device_Disconncted_Handler(bool error)
         {
             BeginInvoke((Action)(() => //Invoke at UI thread
@@ -5467,7 +5467,6 @@ namespace ISC_Win_WinForm_GUI
         #endregion
 
         #region Date and Time
-        //Date and Time
         private void Button_DateTimeSync_Click(object sender, EventArgs e)
         {
             DialogResult result = Message.ShowQuestion("Do you want to sync. it?", "Date and Time", MessageBoxButtons.YesNo);
@@ -6822,24 +6821,6 @@ namespace ISC_Win_WinForm_GUI
             dInfo.SetAccessControl(dSecurity);
         }
 
-        /*private void Button_SaveDirChange_Click(object sender, EventArgs e)
-        {
-            using (var fbd = new FolderBrowserDialog())
-            {
-                fbd.SelectedPath = Dir_Scan_For_New;
-                DialogResult result = fbd.ShowDialog();
-
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-                {
-                    TextBox_SaveDirPath.Text = fbd.SelectedPath;
-                    Dir_Scan_For_New = fbd.SelectedPath;
-                    SaveSettings();
-
-                    try { AddDirectorySecurity(Dir_Scan_For_New); }
-                    catch (Exception ex) { DBG.WriteLine(ex.Message); logFile.Error(ex.Message); }
-                }
-            }
-        }*/
         private void Button_SaveDirChange_Click(object sender, EventArgs e)
         {
             var fbd = new FolderBrowserDialog() { SelectedPath = Dir_Scan_For_New };
@@ -6857,17 +6838,6 @@ namespace ISC_Win_WinForm_GUI
             try { AddDirectorySecurity(Dir_Scan_For_New); }
             catch {  /*log but ignore */  }
         }
-
-        /*private void CheckScanDirPath()
-        {
-            if (!Directory.Exists(TextBox_SaveDirPath.Text))
-            {
-                Message.ShowWarning("The scan directory has not exist. Will set to default path.");
-                String path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                Dir_Scan_For_New = Path.Combine(path, "InnoSpectra", "Scan Results");
-                TextBox_SaveDirPath.Text = Dir_Scan_For_New;
-            }
-        } */
 
         private void CheckScanDirPath()
         {
@@ -6920,6 +6890,7 @@ namespace ISC_Win_WinForm_GUI
                             Clear_Chart(true);
                             Check_Overlay.CheckedChanged -= Check_Overlay_CheckedChanged;
                             Check_Overlay.Checked = false;
+                            Check_Overlay.Visible = true;
                             Check_Overlay.CheckedChanged += Check_Overlay_CheckedChanged;
                         }
                         Check_Overlay.Visible = true;
@@ -6981,8 +6952,6 @@ namespace ISC_Win_WinForm_GUI
             ControlSingleControl(RadioButton_Absorbance, true);
             ControlSingleControl(RadioButton_Intensity, true);
             ControlSingleControl(RadioButton_Reference, true);
-            ControlSingleControl(checkBox_tooltip, true);
-            ControlSingleControl(checkBox_zoom, true);
             ControlSingleControl(Label_TivaFWName, true);
             ControlSingleControl(TextBox_TivaFWPath, true);
             ControlSingleControl(Button_TivaFWBrowse, true);
@@ -7873,6 +7842,7 @@ namespace ISC_Win_WinForm_GUI
         public static event Action<String> RequestPBWContentChange = null;
         internal static String SendPBWContentChange { set { RequestPBWContentChange(value); } }
 
+        #region Progress Window
         private void ProgressWindowStart(String title, String content, Boolean cancellable)
         {
             SystemBusy(true);
@@ -7935,64 +7905,9 @@ namespace ISC_Win_WinForm_GUI
                 this.TopMost = false;
             }));
         }
+        #endregion
 
-        private void checkBox_tooltip_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_tooltip.Checked)
-            {
-                rb_tooltip4single.Enabled = false;
-                rb_tooltip4multi.Enabled = false;
-
-                TooltipSelectionMode ttsm = new TooltipSelectionMode();
-                if (rb_tooltip4single.Checked)
-                    ttsm = TooltipSelectionMode.SharedXInSeries;
-                else
-                    ttsm = TooltipSelectionMode.SharedXValues;
-
-                if (Tooltips_Show_Details)
-                {
-                    MyChart.DataTooltip = new CustomersTooltip()
-                    {
-                        SelectionMode = ttsm,
-                    };
-                }
-                else
-                {
-                    MyChart.DataTooltip = new DefaultTooltip()
-                    {
-
-                        SelectionMode = ttsm,
-                    };
-                }
-
-                MyChart.Hoverable = true;
-                rb_tooltip4single.Enabled = false;
-                rb_tooltip4multi.Enabled = false;
-            }
-            else
-            {
-                MyChart.DataTooltip = null;
-                MyChart.Hoverable = false;
-                rb_tooltip4single.Enabled = true;
-                rb_tooltip4multi.Enabled = true;
-            }
-        }
-
-        private void checkBox_zoom_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_zoom.Checked)
-            {
-                MyChart.Zoom = userZoomOption;
-            }
-            else
-            {
-                MyChart.Zoom = ZoomingOptions.None;
-                MyChart.AxisX[0].MinValue = double.NaN;
-                MyChart.AxisX[0].MaxValue = double.NaN;
-                MyChart.AxisY[0].MinValue = double.NaN;
-                MyChart.AxisY[0].MaxValue = double.NaN;
-            }
-        }
+        
 
         private void ListBox_LocalCfgs_MouseClick(object sender, MouseEventArgs e)
         {
@@ -8688,130 +8603,8 @@ namespace ISC_Win_WinForm_GUI
             }
         }
 
-        private void checkBox_zoom_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e != null && e.Button == MouseButtons.Right)
-            {
-                ContextMenuStrip m = new ContextMenuStrip();
 
-                m.Items.Add("[Zoom option]");
-                m.Items.Add(new ToolStripSeparator());
-                m.Items.Add("X-Axis");
-                m.Items.Add("Y-Axis");
-                m.Items.Add("XY-Axes");
-
-                if (MyChart.Zoom == ZoomingOptions.X)
-                    ((ToolStripMenuItem)m.Items[2]).Checked = true;
-                else if (MyChart.Zoom == ZoomingOptions.Y)
-                    ((ToolStripMenuItem)m.Items[3]).Checked = true;
-                else if (MyChart.Zoom == ZoomingOptions.Xy)
-                    ((ToolStripMenuItem)m.Items[4]).Checked = true;
-                else
-                    return;
-
-                m.ItemClicked += new ToolStripItemClickedEventHandler(checkBox_zoom_ContexMenu_ItemClicked);
-                m.Show(checkBox_zoom, new Point(e.X, e.Y));
-            }
-        }
-
-        void checkBox_zoom_ContexMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            ToolStripItem item = e.ClickedItem;
-            String zoomOption = item.Text;
-
-            if (zoomOption == String.Empty || zoomOption.Contains("option"))
-                return;
-
-            MyChart.AxisX[0].MinValue = double.NaN;
-            MyChart.AxisX[0].MaxValue = double.NaN;
-            MyChart.AxisY[0].MinValue = double.NaN;
-            MyChart.AxisY[0].MaxValue = double.NaN;
-
-            if (zoomOption.Contains("X-Axis"))
-                MyChart.Zoom = ZoomingOptions.X;
-            else if (zoomOption.Contains("Y-Axis"))
-                MyChart.Zoom = ZoomingOptions.Y;
-            else if (zoomOption.Contains("XY-Axes"))
-                MyChart.Zoom = ZoomingOptions.Xy;
-
-            userZoomOption = MyChart.Zoom;
-        }
-
-        private void panel_Tooltips_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e != null && e.Button == MouseButtons.Right)
-            {
-                ContextMenuStrip m = new ContextMenuStrip();
-
-                m.Items.Add("[Tooltips option]");
-                m.Items.Add(new ToolStripSeparator());
-                m.Items.Add("Normal");
-                m.Items.Add("Details");
-
-                if (Tooltips_Show_Details)
-                    ((ToolStripMenuItem)m.Items[3]).Checked = true;
-                else
-                    ((ToolStripMenuItem)m.Items[2]).Checked = true;
-
-                m.ItemClicked += new ToolStripItemClickedEventHandler(panel_Tooltips_ContexMenu_ItemClicked);
-                m.Show(checkBox_zoom, new Point(e.X, e.Y));
-            }
-        }
-
-        void panel_Tooltips_ContexMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            ToolStripItem item = e.ClickedItem;
-            String tooltipsOption = item.Text;
-
-            if (tooltipsOption == String.Empty || tooltipsOption.Contains("option"))
-                return;
-
-            if (tooltipsOption.Contains("Normal"))
-            {
-                Tooltips_Show_Details = false;
-            }
-            else if (tooltipsOption.Contains("Details"))
-            {
-                Tooltips_Show_Details = true;
-            }
-            checkBox_tooltip_CheckedChanged(null, null);
-        }
-
-        private void button_button_disableUACAlert_Click(object sender, EventArgs e)
-        {
-            DialogResult dialogResult = Message.ShowQuestion("Never ask UAC (User Access Control) for the GUI?");
-            if (dialogResult == DialogResult.Yes)
-            {
-                try
-                {
-                    String myPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                    String myName = System.AppDomain.CurrentDomain.FriendlyName;
-                    myPath += "\\" + myName;
-                    RegistryKey myKey = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers\\", true);
-                    if (myKey != null)
-                    {
-                        if (myKey.OpenSubKey(myPath, true) == null)
-                        {
-                            myKey.SetValue(myPath, "~ RUNASINVOKER", RegistryValueKind.String);
-                        }
-                    }
-                    else
-                    {
-                        myKey = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Layers\\", true);
-                        myKey.CreateSubKey(myPath, true);
-                        myKey.SetValue(myPath, "~ RUNASINVOKER", RegistryValueKind.String);
-                    }
-                    myKey.Close();
-                }
-                catch (Exception eX)
-                {
-                    Message.ShowError(eX.Message, "Write Registry Failed");
-                    DBG.WriteLine(eX.Message);
-                    logFile.Error(eX.Message);
-                    return;
-                };
-            }
-        }
+       
 
         private void Button_ModelNameGet_MouseLeave(object sender, EventArgs e)
         {
@@ -9597,6 +9390,13 @@ namespace ISC_Win_WinForm_GUI
             return Image.FromStream(ms);
         }
 
+        private void button_Home_Click(object sender, EventArgs e)
+        {
+            serialPort.WriteLine("G1 X-26.0 Y-6.0 Z8.0 F2000");
+            serialPort.WriteLine("G1 Z0.0 F1500");
+        }
+
+
         private async void button_TestSequence_Click(object sender, EventArgs e)
         {
             if (!ValidateSampleList()) return;
@@ -9615,7 +9415,6 @@ namespace ISC_Win_WinForm_GUI
             LoadSavedScanList();
             SavedScan_RefreshDataGridView();
 
-            //var spectralList = new List<SpectralScan>();
             var uploadList = new List<UploadSample>();
 
             bool firstScan = true;
@@ -9637,16 +9436,6 @@ namespace ISC_Win_WinForm_GUI
                 var material = row.Cells["Material"].Value as string;
                 var mode = row.Cells["ModeOfMeasurement"].Value as string;
                 var subtype = row.Cells["Subtype"].Value as string;
-
-                /* Cria ou preenche o ScanRecord
-                var rec = new ScanRecord
-                {
-                    Position = position,
-                    Type = type,
-                    SampleName = sampleName,
-                    Material = material
-                    // TimeStamp, Reference, etc. vamos popular a seguir
-                };*/
 
                 // Move para a posição
                 this.Text = $"Moving to {pos}";
@@ -9683,7 +9472,6 @@ namespace ISC_Win_WinForm_GUI
                
                 if (!firstScan)
                 {
-                    //PopulateScanRecord(rec);
                     var usp = new UploadSample
                     {
                         username = _username,
@@ -9696,33 +9484,15 @@ namespace ISC_Win_WinForm_GUI
                         parameters = BuildParameters(),
                     };
                     uploadList.Add(usp);
-                    //await PushUploadSampleAsync(usp);
                     TimeScanStart = DateTime.Now;
                     int currentScanIndex = i;
                     string thisPos = samplePositions[currentScanIndex];
                     SaveToFiles(thisPos);
                     LoadSavedScanList();
                     SavedScan_RefreshDataGridView();
-                    /*var spectral = new SpectralScan
-                    {
-                        Position = position,
-                        Type = material,
-                        Absorbance = Scan.Absorbance.ToArray()
-                    };
-
-                    spectralList.Add(spectral);*/
                 }
 
                 AddSeriesForCurrentScan(refType, pos);
-
-                /*if(firstScan)
-                    {
-                        ChartData_RefIntensity.Add(serie);
-                    }
-                    else
-                    {
-                        ChartData_Intensity.Add(serie);
-                    }*/
 
                 var toPlot = RadioButton_Reference.Checked ? ChartData_RefIntensity
                             : RadioButton_Intensity.Checked ? ChartData_Intensity
@@ -9730,8 +9500,6 @@ namespace ISC_Win_WinForm_GUI
                             : RadioButton_Reflectance.Checked ? ChartData_Reflectance
                             : ChartData_Intensity;  // fallback
                 ShowPlot(toPlot);
-
-                //await PushScanRecordAsync(rec);
 
                 firstScan = false;
 
@@ -9767,17 +9535,6 @@ namespace ISC_Win_WinForm_GUI
             this.Text = "Fetching chemical image…";
             try
             {
-                /*var heatmapResponse = await _apiClient.GetAsync("api/image/");
-                heatmapResponse.EnsureSuccessStatusCode();
-
-                string heatmapJson = await heatmapResponse.Content.ReadAsStringAsync();
-                string b64 = JObject.Parse(heatmapJson).Value<string>("heatmap_base64");
-                byte[] imgBytes = Convert.FromBase64String(b64);
-                var ms = new MemoryStream(imgBytes);
-                pictureBox_heatMap.Image = Image.FromStream(ms);
-                pictureBox_heatMap.SizeMode = PictureBoxSizeMode.Zoom;
-
-                this.Text = "Sequence complete";*/
                 await LoadHeatmapAsync();
             }
             catch (HttpRequestException httpEx)
@@ -9968,12 +9725,78 @@ namespace ISC_Win_WinForm_GUI
             MyChart.AxisY.Add(new Axis { Title = labelY });
         }
 
-        private void button_Home_Click(object sender, EventArgs e)
+        #region Modeling
+
+        public class TrainRequest
         {
-            serialPort.WriteLine("G1 X-26.0 Y-6.0 Z8.0 F2000");
-            serialPort.WriteLine("G1 Z0.0 F1500");
+            public string Material { get; set; }
+            public string Subtype { get; set; }
         }
 
-       
+        public class AiModel
+        {
+            public int Id { get; set; }
+            public string Material { get; set; }
+            public string Subtype { get; set; }
+            public string ModelType { get; set; }
+            public string Model_s3_uri { get; set; }
+            public string Metadata_s3_uri { get; set; }
+            public string DownloadUrl { get; set; }
+            public PMetrics Performance { get; set; }
+        }
+
+        public class PMetrics
+        {
+            public double CvAccuracy { get; set; }
+            public double TestAccuracy { get; set; }
+        }
+
+        private async Task<AiModel> TrainAsync(string material, string subtype = null)
+        {
+            var payload = new TrainRequest
+            {
+                Material = material,
+                Subtype = subtype
+            };
+            var json = JsonConvert.SerializeObject(payload);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _apiClient.PostAsync("modeling/train/", content);
+            response.EnsureSuccessStatusCode();
+
+            var respJson = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<AiModel>(respJson);
+        }
+
+        private async void BtnTrain_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                btnTrain.Enabled = false;
+                string material = textBox_Material.Text;
+                string subtype = textBox_Subtype.Text;
+
+                var modelInfo = await TrainAsync(material, subtype);
+
+                MessageBox.Show(
+                    $"Modelo treinado! ID={modelInfo.Id}\n" +
+                    $"Tipo: {modelInfo.ModelType}\n" +
+                    $"Performance: {modelInfo.Performance:P1}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao treinar o modelo:\n{ex.Message}");
+            }
+            finally
+            {
+                btnTrain.Enabled = true;
+            }
+        }
+
+  
     }
+
+    #endregion
+
+
 }

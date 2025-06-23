@@ -205,15 +205,15 @@ namespace ISC_Win_WinForm_GUI
             this.ComboBox_PGAGain = new MyComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.GroupBox_SaveScan = new System.Windows.Forms.GroupBox();
+            this.TextBox_FileNamePrefix3 = new System.Windows.Forms.TextBox();
+            this.TextBox_FileNamePrefix2 = new System.Windows.Forms.TextBox();
+            this.CheckBox_FileNamePrefix = new System.Windows.Forms.CheckBox();
+            this.TextBox_FileNamePrefix1 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.CheckBox_AverageCSV = new System.Windows.Forms.CheckBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.TextBox_FileNamePrefix3 = new System.Windows.Forms.TextBox();
-            this.TextBox_FileNamePrefix2 = new System.Windows.Forms.TextBox();
             this.CheckBox_SaveOneCSV = new System.Windows.Forms.CheckBox();
-            this.TextBox_FileNamePrefix1 = new System.Windows.Forms.TextBox();
-            this.CheckBox_FileNamePrefix = new System.Windows.Forms.CheckBox();
             this.TextBox_SaveDirPath = new System.Windows.Forms.TextBox();
             this.Button_SaveDirChange = new System.Windows.Forms.Button();
             this.CheckBox_SaveRCSV = new System.Windows.Forms.CheckBox();
@@ -388,14 +388,15 @@ namespace ISC_Win_WinForm_GUI
             this.tabControl_MainFunctions = new System.Windows.Forms.TabControl();
             this.tabPage_PosData = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.btnTrain = new System.Windows.Forms.Button();
             this.textBox_Subtype = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox_Material = new System.Windows.Forms.TextBox();
             this.labelModelingMaterial = new System.Windows.Forms.Label();
             this.labelPredictions = new System.Windows.Forms.Label();
             this.dataGridView_Predicitons = new System.Windows.Forms.DataGridView();
-            this.btnTrain = new System.Windows.Forms.Button();
-            this.pictureBox_BestModel = new System.Windows.Forms.PictureBox();
+            this.comboBox_Material = new System.Windows.Forms.ComboBox();
+            this.labelUsername = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.GroupBox_ScanAvg.SuspendLayout();
             this.tabPage_Utility.SuspendLayout();
@@ -444,7 +445,6 @@ namespace ISC_Win_WinForm_GUI
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Predicitons)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_BestModel)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -452,10 +452,10 @@ namespace ISC_Win_WinForm_GUI
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatus_DeviceStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 816);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1034);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 18, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1578, 33);
+            this.statusStrip1.Size = new System.Drawing.Size(1980, 26);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -463,7 +463,7 @@ namespace ISC_Win_WinForm_GUI
             // 
             this.toolStripStatus_DeviceStatus.Image = ((System.Drawing.Image)(resources.GetObject("toolStripStatus_DeviceStatus.Image")));
             this.toolStripStatus_DeviceStatus.Name = "toolStripStatus_DeviceStatus";
-            this.toolStripStatus_DeviceStatus.Size = new System.Drawing.Size(155, 27);
+            this.toolStripStatus_DeviceStatus.Size = new System.Drawing.Size(155, 20);
             this.toolStripStatus_DeviceStatus.Text = "Device Disconnect!";
             // 
             // label_ErrorStatus
@@ -471,7 +471,7 @@ namespace ISC_Win_WinForm_GUI
             this.label_ErrorStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label_ErrorStatus.AutoSize = true;
             this.label_ErrorStatus.BackColor = System.Drawing.Color.Transparent;
-            this.label_ErrorStatus.Location = new System.Drawing.Point(1281, -635);
+            this.label_ErrorStatus.Location = new System.Drawing.Point(2501, -1691);
             this.label_ErrorStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_ErrorStatus.Name = "label_ErrorStatus";
             this.label_ErrorStatus.Size = new System.Drawing.Size(0, 17);
@@ -837,6 +837,7 @@ namespace ISC_Win_WinForm_GUI
             this.Button_SaveNumAvgToConfig.TabIndex = 2;
             this.Button_SaveNumAvgToConfig.Text = "Save to Config";
             this.Button_SaveNumAvgToConfig.UseVisualStyleBackColor = true;
+            this.Button_SaveNumAvgToConfig.Click += new System.EventHandler(this.Button_SaveNumAvgToConfig_Click);
             // 
             // textBox_ScanAvg
             // 
@@ -899,7 +900,7 @@ namespace ISC_Win_WinForm_GUI
             this.tabPage_Utility.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage_Utility.Name = "tabPage_Utility";
             this.tabPage_Utility.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage_Utility.Size = new System.Drawing.Size(1570, 795);
+            this.tabPage_Utility.Size = new System.Drawing.Size(1972, 1006);
             this.tabPage_Utility.TabIndex = 1;
             this.tabPage_Utility.Text = "Utility";
             this.tabPage_Utility.UseVisualStyleBackColor = true;
@@ -2135,7 +2136,7 @@ namespace ISC_Win_WinForm_GUI
             this.tabPage_Scan.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage_Scan.Name = "tabPage_Scan";
             this.tabPage_Scan.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage_Scan.Size = new System.Drawing.Size(1570, 795);
+            this.tabPage_Scan.Size = new System.Drawing.Size(1972, 1006);
             this.tabPage_Scan.TabIndex = 0;
             this.tabPage_Scan.Text = "Scan";
             this.tabPage_Scan.UseVisualStyleBackColor = true;
@@ -2178,6 +2179,7 @@ namespace ISC_Win_WinForm_GUI
             this.button_ClearPlots.TabIndex = 13;
             this.button_ClearPlots.Text = "Clear Plots";
             this.button_ClearPlots.UseVisualStyleBackColor = true;
+            this.button_ClearPlots.Click += new System.EventHandler(this.button_ClearPlots_Click);
             // 
             // Button_ClearAllErrors
             // 
@@ -2188,6 +2190,7 @@ namespace ISC_Win_WinForm_GUI
             this.Button_ClearAllErrors.TabIndex = 12;
             this.Button_ClearAllErrors.Text = "Clear Device Errors";
             this.Button_ClearAllErrors.UseVisualStyleBackColor = true;
+            this.Button_ClearAllErrors.Click += new System.EventHandler(this.Button_ClearAllErrors_Click);
             // 
             // panel1
             // 
@@ -2294,7 +2297,7 @@ namespace ISC_Win_WinForm_GUI
             this.tabScanPositions.Controls.Add(this.tabPage_SaveScans);
             this.tabScanPositions.Controls.Add(this.tabPage_PickTable);
             this.tabScanPositions.Controls.Add(this.tabPage_ChemicalImage);
-            this.tabScanPositions.Location = new System.Drawing.Point(-4, 0);
+            this.tabScanPositions.Location = new System.Drawing.Point(-1, 0);
             this.tabScanPositions.Margin = new System.Windows.Forms.Padding(4);
             this.tabScanPositions.Name = "tabScanPositions";
             this.tabScanPositions.SelectedIndex = 0;
@@ -2392,15 +2395,15 @@ namespace ISC_Win_WinForm_GUI
             // 
             // GroupBox_SaveScan
             // 
+            this.GroupBox_SaveScan.Controls.Add(this.TextBox_FileNamePrefix3);
+            this.GroupBox_SaveScan.Controls.Add(this.TextBox_FileNamePrefix2);
+            this.GroupBox_SaveScan.Controls.Add(this.CheckBox_FileNamePrefix);
+            this.GroupBox_SaveScan.Controls.Add(this.TextBox_FileNamePrefix1);
             this.GroupBox_SaveScan.Controls.Add(this.label6);
             this.GroupBox_SaveScan.Controls.Add(this.CheckBox_AverageCSV);
             this.GroupBox_SaveScan.Controls.Add(this.label11);
             this.GroupBox_SaveScan.Controls.Add(this.label10);
-            this.GroupBox_SaveScan.Controls.Add(this.TextBox_FileNamePrefix3);
-            this.GroupBox_SaveScan.Controls.Add(this.TextBox_FileNamePrefix2);
             this.GroupBox_SaveScan.Controls.Add(this.CheckBox_SaveOneCSV);
-            this.GroupBox_SaveScan.Controls.Add(this.TextBox_FileNamePrefix1);
-            this.GroupBox_SaveScan.Controls.Add(this.CheckBox_FileNamePrefix);
             this.GroupBox_SaveScan.Controls.Add(this.TextBox_SaveDirPath);
             this.GroupBox_SaveScan.Controls.Add(this.Button_SaveDirChange);
             this.GroupBox_SaveScan.Controls.Add(this.CheckBox_SaveRCSV);
@@ -2415,6 +2418,38 @@ namespace ISC_Win_WinForm_GUI
             this.GroupBox_SaveScan.TabIndex = 10;
             this.GroupBox_SaveScan.TabStop = false;
             this.GroupBox_SaveScan.Text = "Save Scan As";
+            // 
+            // TextBox_FileNamePrefix3
+            // 
+            this.TextBox_FileNamePrefix3.Location = new System.Drawing.Point(360, 95);
+            this.TextBox_FileNamePrefix3.Name = "TextBox_FileNamePrefix3";
+            this.TextBox_FileNamePrefix3.Size = new System.Drawing.Size(75, 24);
+            this.TextBox_FileNamePrefix3.TabIndex = 28;
+            // 
+            // TextBox_FileNamePrefix2
+            // 
+            this.TextBox_FileNamePrefix2.Location = new System.Drawing.Point(262, 93);
+            this.TextBox_FileNamePrefix2.Name = "TextBox_FileNamePrefix2";
+            this.TextBox_FileNamePrefix2.Size = new System.Drawing.Size(75, 24);
+            this.TextBox_FileNamePrefix2.TabIndex = 27;
+            // 
+            // CheckBox_FileNamePrefix
+            // 
+            this.CheckBox_FileNamePrefix.AutoSize = true;
+            this.CheckBox_FileNamePrefix.Location = new System.Drawing.Point(24, 98);
+            this.CheckBox_FileNamePrefix.Name = "CheckBox_FileNamePrefix";
+            this.CheckBox_FileNamePrefix.Size = new System.Drawing.Size(121, 21);
+            this.CheckBox_FileNamePrefix.TabIndex = 26;
+            this.CheckBox_FileNamePrefix.Text = "File Name Prefix";
+            this.CheckBox_FileNamePrefix.UseVisualStyleBackColor = true;
+            this.CheckBox_FileNamePrefix.CheckedChanged += new System.EventHandler(this.CheckBox_FileNamePrefix_CheckedChanged);
+            // 
+            // TextBox_FileNamePrefix1
+            // 
+            this.TextBox_FileNamePrefix1.Location = new System.Drawing.Point(158, 93);
+            this.TextBox_FileNamePrefix1.Name = "TextBox_FileNamePrefix1";
+            this.TextBox_FileNamePrefix1.Size = new System.Drawing.Size(75, 24);
+            this.TextBox_FileNamePrefix1.TabIndex = 25;
             // 
             // label6
             // 
@@ -2456,22 +2491,6 @@ namespace ISC_Win_WinForm_GUI
             this.label10.TabIndex = 18;
             this.label10.Text = "_";
             // 
-            // TextBox_FileNamePrefix3
-            // 
-            this.TextBox_FileNamePrefix3.Location = new System.Drawing.Point(361, 93);
-            this.TextBox_FileNamePrefix3.Margin = new System.Windows.Forms.Padding(4);
-            this.TextBox_FileNamePrefix3.Name = "TextBox_FileNamePrefix3";
-            this.TextBox_FileNamePrefix3.Size = new System.Drawing.Size(74, 24);
-            this.TextBox_FileNamePrefix3.TabIndex = 14;
-            // 
-            // TextBox_FileNamePrefix2
-            // 
-            this.TextBox_FileNamePrefix2.Location = new System.Drawing.Point(256, 92);
-            this.TextBox_FileNamePrefix2.Margin = new System.Windows.Forms.Padding(4);
-            this.TextBox_FileNamePrefix2.Name = "TextBox_FileNamePrefix2";
-            this.TextBox_FileNamePrefix2.Size = new System.Drawing.Size(74, 24);
-            this.TextBox_FileNamePrefix2.TabIndex = 13;
-            // 
             // CheckBox_SaveOneCSV
             // 
             this.CheckBox_SaveOneCSV.AutoSize = true;
@@ -2483,26 +2502,6 @@ namespace ISC_Win_WinForm_GUI
             this.CheckBox_SaveOneCSV.TabStop = false;
             this.CheckBox_SaveOneCSV.Text = "-combined.csv";
             this.CheckBox_SaveOneCSV.UseVisualStyleBackColor = true;
-            // 
-            // TextBox_FileNamePrefix1
-            // 
-            this.TextBox_FileNamePrefix1.Location = new System.Drawing.Point(166, 93);
-            this.TextBox_FileNamePrefix1.Margin = new System.Windows.Forms.Padding(4);
-            this.TextBox_FileNamePrefix1.Name = "TextBox_FileNamePrefix1";
-            this.TextBox_FileNamePrefix1.Size = new System.Drawing.Size(74, 24);
-            this.TextBox_FileNamePrefix1.TabIndex = 12;
-            // 
-            // CheckBox_FileNamePrefix
-            // 
-            this.CheckBox_FileNamePrefix.AutoSize = true;
-            this.CheckBox_FileNamePrefix.Location = new System.Drawing.Point(24, 93);
-            this.CheckBox_FileNamePrefix.Margin = new System.Windows.Forms.Padding(4);
-            this.CheckBox_FileNamePrefix.Name = "CheckBox_FileNamePrefix";
-            this.CheckBox_FileNamePrefix.Size = new System.Drawing.Size(121, 21);
-            this.CheckBox_FileNamePrefix.TabIndex = 11;
-            this.CheckBox_FileNamePrefix.TabStop = false;
-            this.CheckBox_FileNamePrefix.Text = "File Name Prefix";
-            this.CheckBox_FileNamePrefix.UseVisualStyleBackColor = true;
             // 
             // TextBox_SaveDirPath
             // 
@@ -2523,6 +2522,7 @@ namespace ISC_Win_WinForm_GUI
             this.Button_SaveDirChange.TabIndex = 10;
             this.Button_SaveDirChange.Text = "Directory";
             this.Button_SaveDirChange.UseVisualStyleBackColor = true;
+            this.Button_SaveDirChange.Click += new System.EventHandler(this.Button_SaveDirChange_Click);
             // 
             // CheckBox_SaveRCSV
             // 
@@ -4530,7 +4530,7 @@ namespace ISC_Win_WinForm_GUI
             this.tabControl_MainFunctions.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl_MainFunctions.Name = "tabControl_MainFunctions";
             this.tabControl_MainFunctions.SelectedIndex = 0;
-            this.tabControl_MainFunctions.Size = new System.Drawing.Size(1578, 808);
+            this.tabControl_MainFunctions.Size = new System.Drawing.Size(1980, 1034);
             this.tabControl_MainFunctions.TabIndex = 2;
             this.tabControl_MainFunctions.SelectedIndexChanged += new System.EventHandler(this.tabControl_MainFunctions_SelectedIndexChanged);
             this.tabControl_MainFunctions.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabPage_Selecting);
@@ -4541,7 +4541,7 @@ namespace ISC_Win_WinForm_GUI
             this.tabPage_PosData.Controls.Add(this.splitContainer2);
             this.tabPage_PosData.Location = new System.Drawing.Point(4, 24);
             this.tabPage_PosData.Name = "tabPage_PosData";
-            this.tabPage_PosData.Size = new System.Drawing.Size(1570, 780);
+            this.tabPage_PosData.Size = new System.Drawing.Size(1972, 1006);
             this.tabPage_PosData.TabIndex = 2;
             this.tabPage_PosData.Text = "Processed Data";
             this.tabPage_PosData.UseVisualStyleBackColor = true;
@@ -4554,7 +4554,8 @@ namespace ISC_Win_WinForm_GUI
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.pictureBox_BestModel);
+            this.splitContainer2.Panel1.Controls.Add(this.labelUsername);
+            this.splitContainer2.Panel1.Controls.Add(this.comboBox_Material);
             this.splitContainer2.Panel1.Controls.Add(this.btnTrain);
             this.splitContainer2.Panel1.Controls.Add(this.textBox_Subtype);
             this.splitContainer2.Panel1.Controls.Add(this.label7);
@@ -4565,9 +4566,19 @@ namespace ISC_Win_WinForm_GUI
             // 
             this.splitContainer2.Panel2.Controls.Add(this.labelPredictions);
             this.splitContainer2.Panel2.Controls.Add(this.dataGridView_Predicitons);
-            this.splitContainer2.Size = new System.Drawing.Size(1570, 780);
-            this.splitContainer2.SplitterDistance = 818;
+            this.splitContainer2.Size = new System.Drawing.Size(1972, 1006);
+            this.splitContainer2.SplitterDistance = 1026;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // btnTrain
+            // 
+            this.btnTrain.Location = new System.Drawing.Point(432, 42);
+            this.btnTrain.Name = "btnTrain";
+            this.btnTrain.Size = new System.Drawing.Size(149, 67);
+            this.btnTrain.TabIndex = 6;
+            this.btnTrain.Text = "Train Model";
+            this.btnTrain.UseVisualStyleBackColor = true;
+            this.btnTrain.Click += new System.EventHandler(this.btnTrain_Click);
             // 
             // textBox_Subtype
             // 
@@ -4622,28 +4633,27 @@ namespace ISC_Win_WinForm_GUI
             this.dataGridView_Predicitons.Size = new System.Drawing.Size(240, 568);
             this.dataGridView_Predicitons.TabIndex = 0;
             // 
-            // btnTrain
+            // comboBox_Material
             // 
-            this.btnTrain.Location = new System.Drawing.Point(432, 42);
-            this.btnTrain.Name = "btnTrain";
-            this.btnTrain.Size = new System.Drawing.Size(149, 67);
-            this.btnTrain.TabIndex = 6;
-            this.btnTrain.Text = "Train Model";
-            this.btnTrain.UseVisualStyleBackColor = true;
+            this.comboBox_Material.FormattingEnabled = true;
+            this.comboBox_Material.Location = new System.Drawing.Point(700, 63);
+            this.comboBox_Material.Name = "comboBox_Material";
+            this.comboBox_Material.Size = new System.Drawing.Size(248, 23);
+            this.comboBox_Material.TabIndex = 7;
             // 
-            // pictureBox_BestModel
+            // labelUsername
             // 
-            this.pictureBox_BestModel.Location = new System.Drawing.Point(36, 144);
-            this.pictureBox_BestModel.Name = "pictureBox_BestModel";
-            this.pictureBox_BestModel.Size = new System.Drawing.Size(764, 499);
-            this.pictureBox_BestModel.TabIndex = 7;
-            this.pictureBox_BestModel.TabStop = false;
+            this.labelUsername.AutoSize = true;
+            this.labelUsername.Location = new System.Drawing.Point(697, 27);
+            this.labelUsername.Name = "labelUsername";
+            this.labelUsername.Size = new System.Drawing.Size(0, 21);
+            this.labelUsername.TabIndex = 8;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1262, 679);
+            this.ClientSize = new System.Drawing.Size(1980, 1060);
             this.Controls.Add(this.label_ErrorStatus);
             this.Controls.Add(this.tabControl_MainFunctions);
             this.Controls.Add(this.statusStrip1);
@@ -4731,7 +4741,6 @@ namespace ISC_Win_WinForm_GUI
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Predicitons)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_BestModel)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -5073,11 +5082,7 @@ namespace ISC_Win_WinForm_GUI
         private CheckBox CheckBox_AverageCSV;
         private Label label11;
         private Label label10;
-        private TextBox TextBox_FileNamePrefix3;
-        private TextBox TextBox_FileNamePrefix2;
         private CheckBox CheckBox_SaveOneCSV;
-        private TextBox TextBox_FileNamePrefix1;
-        private CheckBox CheckBox_FileNamePrefix;
         private TextBox TextBox_SaveDirPath;
         private Button Button_SaveDirChange;
         private CheckBox CheckBox_SaveRCSV;
@@ -5099,7 +5104,12 @@ namespace ISC_Win_WinForm_GUI
         private TextBox textBox_Subtype;
         private Label label7;
         private Button btnTrain;
-        private PictureBox pictureBox_BestModel;
+        private TextBox TextBox_FileNamePrefix1;
+        private CheckBox CheckBox_FileNamePrefix;
+        private TextBox TextBox_FileNamePrefix3;
+        private TextBox TextBox_FileNamePrefix2;
+        private ComboBox comboBox_Material;
+        private Label labelUsername;
     }
 }
 

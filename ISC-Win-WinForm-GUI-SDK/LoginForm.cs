@@ -19,7 +19,7 @@ namespace ISC_Win_WinForm_GUI
             // no Designer crie:
             // - TextBox: txtUser, txtPass (PasswordChar='*')
             // - Buttons: btnLogin, btnCancel
-            btnLogin.Click += btnLogin_Click;
+            //btnLogin.Click += btnLogin_Click;
             btnCancel.Click += (_, __) => { DialogResult = DialogResult.Cancel; };
         }
 
@@ -40,7 +40,7 @@ namespace ISC_Win_WinForm_GUI
                 string json = Newtonsoft.Json.JsonConvert.SerializeObject(creds);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var client = new HttpClient { BaseAddress = new Uri("http://127.0.0.1:8000/") };
+                var client = ApiClientHolder.Client; // ApiClientHolder.Client já está definido com a base URL
                 var resp = await client.PostAsync("api/token/", content);
                 MessageBox.Show($"Login response: {resp}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 if (!resp.IsSuccessStatusCode)
@@ -52,8 +52,11 @@ namespace ISC_Win_WinForm_GUI
                 var body = await resp.Content.ReadAsStringAsync();
                 var j = JObject.Parse(body);
                 var JwtToken = j.Value<string>("access");
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", JwtToken);
+
                 TokenManager.JwtToken = JwtToken;
-                Username = user;//textBox_User.Text.Trim();
+                this.Username = user;//textBox_User.Text.Trim();
                 // stamp the Bearer token onto the shared client
                 //client.DefaultRequestHeaders.Authorization =
                 //new AuthenticationHeaderValue("Bearer", JwtToken);

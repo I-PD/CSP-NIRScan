@@ -133,6 +133,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClientHolder.cs" />
     <Compile Include="APIs.cs" />
     <Compile Include="BleMsgForm.cs">
       <SubType>Form</SubType>

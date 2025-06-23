@@ -38,6 +38,7 @@ using System.Globalization;
 using System.Net.Http.Headers;
 using System.Xml.Linq;
 using log4net.Core;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace ISC_Win_WinForm_GUI
 {
@@ -46,13 +47,6 @@ namespace ISC_Win_WinForm_GUI
         private static readonly ILog logFile = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public CancellationTokenSource _runCancelTokenSource;
-        private static readonly HttpClient _apiClient = new HttpClient
-        {
-            BaseAddress = new Uri("http://127.0.0.1:8000/")
-        };
-        private readonly string _jwtToken;
-        private readonly string _username;
-        private readonly string[] _args;
 
         private readonly String AppName = "CSP NIRScan ";
         private bool AppLoaded = false;
@@ -208,19 +202,28 @@ namespace ISC_Win_WinForm_GUI
         };
         public ScanReference userDefaultReference = ScanReference.New;
 
+        private readonly HttpClient _apiClient;
+        private readonly string _jwtToken;
+        private readonly string _username;
+        private readonly string[] _args;
         //Novo construtor que recebe o JWT do login    
         public MainWindow(string[] args, string jwtToken, string username)
         {
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenManager.JwtToken);
+            _args = args;
             _jwtToken = jwtToken;
             _username = username;
 
+            
+            // Injeta o Authorization header
+            _apiClient = ApiClientHolder.Client;
+            _apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken);
+            
             InitializeComponent();
             CommonUISetup(_args);
-            // Injeta o Authorization header
-            _apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken);
+
+            _ = InitializeDataAsync(); // Chama o método assíncrono para carregar dados iniciais
         }
+
 
         //public MainWindow(string[] args)
         public void CommonUISetup(string[] args)
@@ -9344,34 +9347,34 @@ namespace ISC_Win_WinForm_GUI
 
         private async Task LoadHeatmapAsync()
         {
-            // Injeta o Authorization header
-            _apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken);
-            //var token = await _apiClient.GetAsync("api/token/");
-            //var token=_apiClient.DefaultRequestHeaders.Authorization;
-                // 1) Call the endpoint
-            var response = await _apiClient.GetAsync("api/heatmap/");
-            response.EnsureSuccessStatusCode();
-
-            // 2a) Option A: get it as a Stream
-            using (var imgStream = await response.Content.ReadAsStreamAsync())
+            try
             {
-                // Image.FromStream will read the PNG bytes
-                var img = Image.FromStream(imgStream);
+                // Injeta o Authorization header
+                //_apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken);
+                //var token = await _apiClient.GetAsync("api/token/");
+                //var token=_apiClient.DefaultRequestHeaders.Authorization;
 
-                // 3) Assign to PictureBox
-                pictureBox_heatMap.SizeMode = PictureBoxSizeMode.Zoom;
-                pictureBox_heatMap.Image = img;
+                // 1) Call the endpoint
+                var response = await _apiClient.GetAsync("api/heatmap/");
+                response.EnsureSuccessStatusCode();
+
+                // 2a) Option A: get it as a Stream
+                using (var imgStream = await response.Content.ReadAsStreamAsync())
+                {
+                    // Image.FromStream will read the PNG bytes
+                    var img = Image.FromStream(imgStream);
+
+                    // 3) Assign to PictureBox
+                    pictureBox_heatMap.SizeMode = PictureBoxSizeMode.Zoom;
+                    pictureBox_heatMap.Image = img;
+                }
             }
-
-            // Or, if you prefer working with a byte[]:
-            // 2b) Option B: get it as a byte array
-            // var bytes = await response.Content.ReadAsByteArrayAsync();
-            // using (var ms = new MemoryStream(bytes))
-            // {
-            //     pictureBox_heatMap.Image = Image.FromStream(ms);
-            //     pictureBox_heatMap.SizeMode = PictureBoxSizeMode.Zoom;
-            // }
-
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to load heatmap: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             this.Text = "Sequence complete";
         }
 
@@ -9517,6 +9520,8 @@ namespace ISC_Win_WinForm_GUI
             // Serializa o array de UploadSample
             string batchJson = JsonConvert.SerializeObject(uploadList);
             MessageBox.Show(batchJson, "Batch JSON to upload");
+            //var client = ApiClientHolder.Client;
+
             try
             {
                 var uploadContent = new StringContent(batchJson, Encoding.UTF8, "application/json");
@@ -9729,19 +9734,27 @@ namespace ISC_Win_WinForm_GUI
 
         public class TrainRequest
         {
+            [JsonProperty("material")]
             public string Material { get; set; }
+            [JsonProperty("subtype")]
             public string Subtype { get; set; }
         }
 
         public class AiModel
         {
+            [JsonProperty("id")]
             public int Id { get; set; }
-            public string Material { get; set; }
+            public int MaterialId { get; set; }
             public string Subtype { get; set; }
+            [JsonProperty("model_type")]
             public string ModelType { get; set; }
+            [JsonProperty("model_s3_uri")]
             public string Model_s3_uri { get; set; }
+            [JsonProperty("metadata_s3_uri")]
             public string Metadata_s3_uri { get; set; }
+            [JsonProperty("download_url")]
             public string DownloadUrl { get; set; }
+            [JsonProperty("performance")]
             public PMetrics Performance { get; set; }
         }
 
@@ -9753,6 +9766,9 @@ namespace ISC_Win_WinForm_GUI
 
         private async Task<AiModel> TrainAsync(string material, string subtype = null)
         {
+
+            //var client = ApiClientHolder.Client;
+
             var payload = new TrainRequest
             {
                 Material = material,
@@ -9768,20 +9784,86 @@ namespace ISC_Win_WinForm_GUI
             return JsonConvert.DeserializeObject<AiModel>(respJson);
         }
 
-        private async void BtnTrain_Click(object sender, EventArgs e)
+        private MaterialDto SelectedMaterial => comboBox_Material.SelectedItem as MaterialDto;
+
+        private async void btnTrain_Click(object sender, EventArgs e)
         {
+            btnTrain.Enabled = false;
             try
             {
-                btnTrain.Enabled = false;
-                string material = textBox_Material.Text;
-                string subtype = textBox_Subtype.Text;
+                // 1) get material name & subtype from the ComboBox
+                var mat = SelectedMaterial;
+                if (mat == null)
+                {
+                    MessageBox.Show("Please select a material first.",
+                                    "Missing Material",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return;
+                }
+                string materialName = mat.Name;
+                string subtype = textBox_Subtype.Text.Trim();
+                string subtype_final = string.IsNullOrWhiteSpace(subtype)
+                 ? null
+                 : subtype;
 
-                var modelInfo = await TrainAsync(material, subtype);
+                /*var modelInfo = await TrainAsync(material, subtype_final);
+               var msg =
+                   $"Model trained!\n\n" +
+                   $"ID: {modelInfo.Id}\n" +
+                   $"Type: {modelInfo.ModelType}\n" +
+                   //$"Test Accuracy: {modelInfo.Performance.TestAccuracy:P1}\n\n" +
+                   $"Download URL:\n{modelInfo.DownloadUrl}\n\n" +
+                   $"S3 URI:\n{modelInfo.Model_s3_uri}\n\n" +
+                   $"Metadata URI:\n{modelInfo.Metadata_s3_uri}";
 
-                MessageBox.Show(
-                    $"Modelo treinado! ID={modelInfo.Id}\n" +
-                    $"Tipo: {modelInfo.ModelType}\n" +
-                    $"Performance: {modelInfo.Performance:P1}");
+               MessageBox.Show(msg, "Training Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+              MessageBox.Show(
+                   $"Modelo treinado! ID={modelInfo.Id}\n" +
+                   $"Tipo: {modelInfo.ModelType}\n" +
+                   $"Performance: {modelInfo.Performance:P1}");
+               MessageBox.Show(
+                   $"Modelo treinado! ID={modelInfo.Id}\n" +
+                   $"Tipo: {modelInfo.ModelType}\n" +
+                   $"Test Accuracy: {modelInfo.Performance.TestAccuracy:P1}\n" +
+                   $"(Other Scores: {modelInfo.Performance.CvAccuracy:P1})\n" +
+                   $"Download: {modelInfo.DownloadUrl}"
+                   );*/
+                // build payload
+                var payload = new TrainRequest { Material = materialName, Subtype = subtype_final };
+                var json = JsonConvert.SerializeObject(payload);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                // fire the request
+                var response = await _apiClient.PostAsync("modeling/train/", content);
+
+                // if it failed, show the server’s JSON error
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errBody = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(
+                        $"Training failed ({(int)response.StatusCode}):\n{errBody}",
+                        "Training Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    return;
+                }
+
+                // success → deserialize
+                var respJson = await response.Content.ReadAsStringAsync();
+                var modelInfo = JsonConvert.DeserializeObject<AiModel>(respJson);
+
+                var msg =
+                    $"Model trained!\n\n" +
+                    $"ID: {modelInfo.Id}\n" +
+                    $"Type: {modelInfo.ModelType}\n" +
+                    $"Download URL:\n{modelInfo.DownloadUrl}\n" +
+                    $"S3 URI:\n{modelInfo.Model_s3_uri}\n" +
+                    $"Metadata URI:\n{modelInfo.Metadata_s3_uri}";
+
+                MessageBox.Show(msg, "Training Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -9793,10 +9875,41 @@ namespace ISC_Win_WinForm_GUI
             }
         }
 
-  
-    }
+        public class MaterialDto
+        {
+            [JsonProperty("id")]
+            public int Id { get; set; }
 
-    #endregion
+            [JsonProperty("name")]
+            public string Name { get; set; }
+
+            // subtype comes back as null or a string
+            [JsonProperty("subtype")]
+            public string Subtype { get; set; }
+        }
+
+        private async Task InitializeDataAsync()
+        {
+            try
+            {
+                //var client = ApiClientHolder.Client;
+                // Optionally load materials or user info
+                var materials = await _apiClient.GetFromJsonAsync<List<MaterialDto>>("api/materials/");
+                comboBox_Material.DisplayMember = "Name";
+                comboBox_Material.ValueMember = "Id";
+                comboBox_Material.DataSource = materials;
+
+                // Display username
+                labelUsername.Text = _username;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading initial data:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+    }
 
 
 }

@@ -388,15 +388,15 @@ namespace ISC_Win_WinForm_GUI
             this.tabControl_MainFunctions = new System.Windows.Forms.TabControl();
             this.tabPage_PosData = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.labelUsername = new System.Windows.Forms.Label();
+            this.comboBox_Material = new System.Windows.Forms.ComboBox();
             this.btnTrain = new System.Windows.Forms.Button();
             this.textBox_Subtype = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox_Material = new System.Windows.Forms.TextBox();
             this.labelModelingMaterial = new System.Windows.Forms.Label();
             this.labelPredictions = new System.Windows.Forms.Label();
             this.dataGridView_Predicitons = new System.Windows.Forms.DataGridView();
-            this.comboBox_Material = new System.Windows.Forms.ComboBox();
-            this.labelUsername = new System.Windows.Forms.Label();
+            this.comboBox_Subtype = new System.Windows.Forms.ComboBox();
             this.statusStrip1.SuspendLayout();
             this.GroupBox_ScanAvg.SuspendLayout();
             this.tabPage_Utility.SuspendLayout();
@@ -452,10 +452,10 @@ namespace ISC_Win_WinForm_GUI
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatus_DeviceStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1034);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1299);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 18, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1980, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1767, 26);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -900,7 +900,7 @@ namespace ISC_Win_WinForm_GUI
             this.tabPage_Utility.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage_Utility.Name = "tabPage_Utility";
             this.tabPage_Utility.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage_Utility.Size = new System.Drawing.Size(1972, 1006);
+            this.tabPage_Utility.Size = new System.Drawing.Size(1759, 1271);
             this.tabPage_Utility.TabIndex = 1;
             this.tabPage_Utility.Text = "Utility";
             this.tabPage_Utility.UseVisualStyleBackColor = true;
@@ -2136,7 +2136,7 @@ namespace ISC_Win_WinForm_GUI
             this.tabPage_Scan.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage_Scan.Name = "tabPage_Scan";
             this.tabPage_Scan.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage_Scan.Size = new System.Drawing.Size(1972, 1006);
+            this.tabPage_Scan.Size = new System.Drawing.Size(1759, 1271);
             this.tabPage_Scan.TabIndex = 0;
             this.tabPage_Scan.Text = "Scan";
             this.tabPage_Scan.UseVisualStyleBackColor = true;
@@ -2297,7 +2297,7 @@ namespace ISC_Win_WinForm_GUI
             this.tabScanPositions.Controls.Add(this.tabPage_SaveScans);
             this.tabScanPositions.Controls.Add(this.tabPage_PickTable);
             this.tabScanPositions.Controls.Add(this.tabPage_ChemicalImage);
-            this.tabScanPositions.Location = new System.Drawing.Point(-1, 0);
+            this.tabScanPositions.Location = new System.Drawing.Point(-5, 0);
             this.tabScanPositions.Margin = new System.Windows.Forms.Padding(4);
             this.tabScanPositions.Name = "tabScanPositions";
             this.tabScanPositions.SelectedIndex = 0;
@@ -4530,7 +4530,7 @@ namespace ISC_Win_WinForm_GUI
             this.tabControl_MainFunctions.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl_MainFunctions.Name = "tabControl_MainFunctions";
             this.tabControl_MainFunctions.SelectedIndex = 0;
-            this.tabControl_MainFunctions.Size = new System.Drawing.Size(1980, 1034);
+            this.tabControl_MainFunctions.Size = new System.Drawing.Size(1767, 1299);
             this.tabControl_MainFunctions.TabIndex = 2;
             this.tabControl_MainFunctions.SelectedIndexChanged += new System.EventHandler(this.tabControl_MainFunctions_SelectedIndexChanged);
             this.tabControl_MainFunctions.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabPage_Selecting);
@@ -4541,7 +4541,7 @@ namespace ISC_Win_WinForm_GUI
             this.tabPage_PosData.Controls.Add(this.splitContainer2);
             this.tabPage_PosData.Location = new System.Drawing.Point(4, 24);
             this.tabPage_PosData.Name = "tabPage_PosData";
-            this.tabPage_PosData.Size = new System.Drawing.Size(1972, 1006);
+            this.tabPage_PosData.Size = new System.Drawing.Size(1759, 1271);
             this.tabPage_PosData.TabIndex = 2;
             this.tabPage_PosData.Text = "Processed Data";
             this.tabPage_PosData.UseVisualStyleBackColor = true;
@@ -4554,21 +4554,38 @@ namespace ISC_Win_WinForm_GUI
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.comboBox_Subtype);
             this.splitContainer2.Panel1.Controls.Add(this.labelUsername);
             this.splitContainer2.Panel1.Controls.Add(this.comboBox_Material);
             this.splitContainer2.Panel1.Controls.Add(this.btnTrain);
             this.splitContainer2.Panel1.Controls.Add(this.textBox_Subtype);
             this.splitContainer2.Panel1.Controls.Add(this.label7);
-            this.splitContainer2.Panel1.Controls.Add(this.textBox_Material);
             this.splitContainer2.Panel1.Controls.Add(this.labelModelingMaterial);
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.labelPredictions);
             this.splitContainer2.Panel2.Controls.Add(this.dataGridView_Predicitons);
-            this.splitContainer2.Size = new System.Drawing.Size(1972, 1006);
-            this.splitContainer2.SplitterDistance = 1026;
+            this.splitContainer2.Size = new System.Drawing.Size(1759, 1271);
+            this.splitContainer2.SplitterDistance = 915;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // labelUsername
+            // 
+            this.labelUsername.AutoSize = true;
+            this.labelUsername.Location = new System.Drawing.Point(697, 27);
+            this.labelUsername.Name = "labelUsername";
+            this.labelUsername.Size = new System.Drawing.Size(0, 17);
+            this.labelUsername.TabIndex = 8;
+            // 
+            // comboBox_Material
+            // 
+            this.comboBox_Material.FormattingEnabled = true;
+            this.comboBox_Material.Location = new System.Drawing.Point(132, 39);
+            this.comboBox_Material.Name = "comboBox_Material";
+            this.comboBox_Material.Size = new System.Drawing.Size(248, 23);
+            this.comboBox_Material.TabIndex = 7;
+            this.comboBox_Material.SelectedIndexChanged += new System.EventHandler(this.comboBox_Material_SelectedIndexChanged);
             // 
             // btnTrain
             // 
@@ -4582,7 +4599,7 @@ namespace ISC_Win_WinForm_GUI
             // 
             // textBox_Subtype
             // 
-            this.textBox_Subtype.Location = new System.Drawing.Point(132, 82);
+            this.textBox_Subtype.Location = new System.Drawing.Point(520, 165);
             this.textBox_Subtype.Name = "textBox_Subtype";
             this.textBox_Subtype.Size = new System.Drawing.Size(168, 24);
             this.textBox_Subtype.TabIndex = 5;
@@ -4596,13 +4613,6 @@ namespace ISC_Win_WinForm_GUI
             this.label7.Size = new System.Drawing.Size(88, 24);
             this.label7.TabIndex = 4;
             this.label7.Text = "Subtype :";
-            // 
-            // textBox_Material
-            // 
-            this.textBox_Material.Location = new System.Drawing.Point(132, 39);
-            this.textBox_Material.Name = "textBox_Material";
-            this.textBox_Material.Size = new System.Drawing.Size(168, 24);
-            this.textBox_Material.TabIndex = 3;
             // 
             // labelModelingMaterial
             // 
@@ -4633,27 +4643,19 @@ namespace ISC_Win_WinForm_GUI
             this.dataGridView_Predicitons.Size = new System.Drawing.Size(240, 568);
             this.dataGridView_Predicitons.TabIndex = 0;
             // 
-            // comboBox_Material
+            // comboBox_Subtype
             // 
-            this.comboBox_Material.FormattingEnabled = true;
-            this.comboBox_Material.Location = new System.Drawing.Point(700, 63);
-            this.comboBox_Material.Name = "comboBox_Material";
-            this.comboBox_Material.Size = new System.Drawing.Size(248, 23);
-            this.comboBox_Material.TabIndex = 7;
-            // 
-            // labelUsername
-            // 
-            this.labelUsername.AutoSize = true;
-            this.labelUsername.Location = new System.Drawing.Point(697, 27);
-            this.labelUsername.Name = "labelUsername";
-            this.labelUsername.Size = new System.Drawing.Size(0, 21);
-            this.labelUsername.TabIndex = 8;
+            this.comboBox_Subtype.FormattingEnabled = true;
+            this.comboBox_Subtype.Location = new System.Drawing.Point(132, 86);
+            this.comboBox_Subtype.Name = "comboBox_Subtype";
+            this.comboBox_Subtype.Size = new System.Drawing.Size(248, 23);
+            this.comboBox_Subtype.TabIndex = 9;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1980, 1060);
+            this.ClientSize = new System.Drawing.Size(1767, 1325);
             this.Controls.Add(this.label_ErrorStatus);
             this.Controls.Add(this.tabControl_MainFunctions);
             this.Controls.Add(this.statusStrip1);
@@ -5100,7 +5102,6 @@ namespace ISC_Win_WinForm_GUI
         private Button button_ClearPlots;
         private Button Button_ClearAllErrors;
         private Label label_CI;
-        private TextBox textBox_Material;
         private TextBox textBox_Subtype;
         private Label label7;
         private Button btnTrain;
@@ -5108,8 +5109,9 @@ namespace ISC_Win_WinForm_GUI
         private CheckBox CheckBox_FileNamePrefix;
         private TextBox TextBox_FileNamePrefix3;
         private TextBox TextBox_FileNamePrefix2;
-        private ComboBox comboBox_Material;
         private Label labelUsername;
+        private ComboBox comboBox_Material;
+        private ComboBox comboBox_Subtype;
     }
 }
 

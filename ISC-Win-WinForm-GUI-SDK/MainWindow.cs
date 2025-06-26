@@ -39,6 +39,8 @@ using System.Net.Http.Headers;
 using System.Xml.Linq;
 using log4net.Core;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
+using System.Security.Cryptography.X509Certificates;
+using System.Drawing.Text;
 
 namespace ISC_Win_WinForm_GUI
 {
@@ -8721,6 +8723,7 @@ namespace ISC_Win_WinForm_GUI
             public DateTime Timestamp { get; set; } //Date and time of scan
             public string SampleName { get; set; }
             public string Material { get; set; }
+
             //public string Mode { get; set; } //Hadamard, Column ou Custom
             //public double[] ScanValues { get; set; }
 
@@ -9736,8 +9739,10 @@ namespace ISC_Win_WinForm_GUI
         {
             [JsonProperty("material")]
             public string Material { get; set; }
-            [JsonProperty("subtype")]
-            public string Subtype { get; set; }
+            //[JsonProperty("subtype")]
+            //public string Subtype { get; set; }
+            [JsonProperty("material_id")]
+            public int MaterialId { get; set; }
         }
 
         public class AiModel
@@ -9764,26 +9769,6 @@ namespace ISC_Win_WinForm_GUI
             public double TestAccuracy { get; set; }
         }
 
-        private async Task<AiModel> TrainAsync(string material, string subtype = null)
-        {
-
-            //var client = ApiClientHolder.Client;
-
-            var payload = new TrainRequest
-            {
-                Material = material,
-                Subtype = subtype
-            };
-            var json = JsonConvert.SerializeObject(payload);
-
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _apiClient.PostAsync("modeling/train/", content);
-            response.EnsureSuccessStatusCode();
-
-            var respJson = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<AiModel>(respJson);
-        }
-
         private MaterialDto SelectedMaterial => comboBox_Material.SelectedItem as MaterialDto;
 
         private async void btnTrain_Click(object sender, EventArgs e)
@@ -9802,7 +9787,8 @@ namespace ISC_Win_WinForm_GUI
                     return;
                 }
                 string materialName = mat.Name;
-                string subtype = textBox_Subtype.Text.Trim();
+                int materialId = mat.Id;
+                string subtype = comboBox_Subtype.SelectedItem as string;
                 string subtype_final = string.IsNullOrWhiteSpace(subtype)
                  ? null
                  : subtype;
@@ -9831,7 +9817,8 @@ namespace ISC_Win_WinForm_GUI
                    $"Download: {modelInfo.DownloadUrl}"
                    );*/
                 // build payload
-                var payload = new TrainRequest { Material = materialName, Subtype = subtype_final };
+                //var payload = new TrainRequest { Material = materialName };//, Subtype = subtype_final };
+                var payload = new TrainRequest { MaterialId = materialId };
                 var json = JsonConvert.SerializeObject(payload);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -9884,23 +9871,27 @@ namespace ISC_Win_WinForm_GUI
             public string Name { get; set; }
 
             // subtype comes back as null or a string
-            [JsonProperty("subtype")]
-            public string Subtype { get; set; }
+            //[JsonProperty("subtype")]
+            //public string Subtype { get; set; }
+            // subtype comes back as null or a string
+            [JsonProperty("submaterial")]
+            public string Submaterial { get; set; }
         }
 
+        private  List<MaterialDto> materials;
         private async Task InitializeDataAsync()
-        {
+        {    
             try
             {
-                //var client = ApiClientHolder.Client;
                 // Optionally load materials or user info
-                var materials = await _apiClient.GetFromJsonAsync<List<MaterialDto>>("api/materials/");
+                materials = await _apiClient.GetFromJsonAsync<List<MaterialDto>>("api/materials/");
                 comboBox_Material.DisplayMember = "Name";
                 comboBox_Material.ValueMember = "Id";
                 comboBox_Material.DataSource = materials;
 
                 // Display username
                 labelUsername.Text = _username;
+
             }
             catch (Exception ex)
             {
@@ -9909,7 +9900,53 @@ namespace ISC_Win_WinForm_GUI
         }
 
         #endregion
+
+        private void comboBox_Material_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedMaterial = comboBox_Material.SelectedItem as MaterialDto;
+            if (selectedMaterial == null) return;
+
+            // Find all subtypes for the selected material name
+            var subtypes = materials
+                .Where(m => m.Name == selectedMaterial.Name && !string.IsNullOrEmpty(m.Submaterial))
+                .Select(m => m.Submaterial)
+                .Distinct()
+                .ToList();
+
+            // Optional: insert a "None" option if you have materials with null subtype
+            if (materials.Any(m => m.Name == selectedMaterial.Name && string.IsNullOrEmpty(m.Submaterial)))
+                subtypes.Insert(0, "(None)");
+
+            comboBox_Subtype.DataSource = subtypes;
+
+            // Optionally select first subtype automatically
+            //if (subtypes.Count > 0)
+            //    comboBox_Subtype.SelectedIndex = 0;
+
+            // Show sample count for selected material & (first) subtype
+            //ShowSampleCount(selectedMaterial.Name, subtypes.FirstOrDefault());
+        }
+
+        /* 
+         private async Task<AiModel> TrainAsync(string material, string subtype = null)
+        {
+
+            //var client = ApiClientHolder.Client;
+
+            var payload = new TrainRequest
+            {
+                Material = material,
+                //Subtype = subtype
+            };
+            var json = JsonConvert.SerializeObject(payload);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _apiClient.PostAsync("modeling/train/", content);
+            response.EnsureSuccessStatusCode();
+
+            var respJson = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<AiModel>(respJson);
+        }
+        */
     }
-
-
 }

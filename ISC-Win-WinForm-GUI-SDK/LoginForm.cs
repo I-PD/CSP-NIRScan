@@ -42,7 +42,7 @@ namespace ISC_Win_WinForm_GUI
 
                 var client = ApiClientHolder.Client; // ApiClientHolder.Client já está definido com a base URL
                 var resp = await client.PostAsync("api/token/", content);
-                MessageBox.Show($"Login response: {resp}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show($"Login response: {resp}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 if (!resp.IsSuccessStatusCode)
                 {
                     MessageBox.Show($"Login failed: {resp.StatusCode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

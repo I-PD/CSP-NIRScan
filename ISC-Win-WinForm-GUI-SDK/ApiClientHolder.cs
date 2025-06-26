@@ -9,7 +9,13 @@ namespace ISC_Win_WinForm_GUI
 {
     internal class ApiClientHolder
     {
-        public static readonly HttpClient Client =
-            new HttpClient { BaseAddress = new Uri("http://127.0.0.1:8000/") };
+        public static readonly HttpClient Client;
+
+        static ApiClientHolder()
+        {
+            Client = new HttpClient { BaseAddress = new Uri("http://127.0.0.1:8000/") };
+            Client.Timeout = TimeSpan.FromMinutes(10); // Set to 10 minutes (adjust as needed)  
+        }
     }
+
 }

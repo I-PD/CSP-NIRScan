@@ -8751,7 +8751,7 @@ namespace ISC_Win_WinForm_GUI
             public Dictionary<string, object> parameters { get; set; } // Additional parameters related to the sample
         }
 
-        private void PopulateScanRecord(ScanRecord rec)
+        /*private void PopulateScanRecord(ScanRecord rec)
         {
             // 3.1 Timestamp
             rec.Timestamp = DateTime.Now;
@@ -8817,7 +8817,7 @@ namespace ISC_Win_WinForm_GUI
                   $"UploadSample exception at position {usp.position}: {ex.Message}",
                   "API Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
+        }*/
 
         public void SetupDataGridView()
         {
@@ -9236,8 +9236,6 @@ namespace ISC_Win_WinForm_GUI
             return true;
         }
 
-        #endregion
-
         private async void button_Save_Click(object sender, EventArgs e)
         {
             if (comboBox_COMport.SelectedItem == null || comboBox_COMport.SelectedItem.ToString() == "No COM port found")
@@ -9313,6 +9311,8 @@ namespace ISC_Win_WinForm_GUI
             button_Undo.Enabled = false;
         }
 
+        #endregion
+
         private bool ValidateSampleList()
         {
             foreach (DataGridViewRow row in dataGridView_Table.Rows)
@@ -9381,7 +9381,7 @@ namespace ISC_Win_WinForm_GUI
             this.Text = "Sequence complete";
         }
 
-        private async Task<Image> LoadPlotAsync(string endpoint, string jsonField)
+        /*private async Task<Image> LoadPlotAsync(string endpoint, string jsonField)
         {
             var resp = await _apiClient.GetAsync(endpoint);
             resp.EnsureSuccessStatusCode();
@@ -9394,7 +9394,7 @@ namespace ISC_Win_WinForm_GUI
             byte[] bytes = Convert.FromBase64String(b64);
             var ms = new MemoryStream(bytes);
             return Image.FromStream(ms);
-        }
+        }*/
 
         private void button_Home_Click(object sender, EventArgs e)
         {
@@ -9402,6 +9402,7 @@ namespace ISC_Win_WinForm_GUI
             serialPort.WriteLine("G1 Z0.0 F1500");
         }
 
+        public List<UploadSample> latestUploadBatch;
 
         private async void button_TestSequence_Click(object sender, EventArgs e)
         {
@@ -9520,6 +9521,7 @@ namespace ISC_Win_WinForm_GUI
             }
 
             this.Text = "Uploading batch to server…";
+            latestUploadBatch = uploadList;
             // Serializa o array de UploadSample
             string batchJson = JsonConvert.SerializeObject(uploadList);
             MessageBox.Show(batchJson, "Batch JSON to upload");
@@ -9842,6 +9844,14 @@ namespace ISC_Win_WinForm_GUI
                 var respJson = await response.Content.ReadAsStringAsync();
                 var modelInfo = JsonConvert.DeserializeObject<AiModel>(respJson);
 
+                textBox_ModelInfo.Text=
+                    $"Model Trained!\n\n" +
+                    $"ID: {modelInfo.Id}\r\n" +
+                    $"Type: {modelInfo.ModelType}\r\n" +
+                    $"Download URL: {modelInfo.DownloadUrl}\r\n" +
+                    $"S3 URI: {modelInfo.Model_s3_uri}\r\n" +
+                    $"Metadata URI: {modelInfo.Metadata_s3_uri}";
+
                 var msg =
                     $"Model trained!\n\n" +
                     $"ID: {modelInfo.Id}\n" +
@@ -9899,8 +9909,6 @@ namespace ISC_Win_WinForm_GUI
             }
         }
 
-        #endregion
-
         private void comboBox_Material_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedMaterial = comboBox_Material.SelectedItem as MaterialDto;
@@ -9926,6 +9934,119 @@ namespace ISC_Win_WinForm_GUI
             // Show sample count for selected material & (first) subtype
             //ShowSampleCount(selectedMaterial.Name, subtypes.FirstOrDefault());
         }
+
+        #endregion
+
+        #region Predict
+
+        public class PredictionResponse
+        {
+            public List<PredictionItem> predictions { get; set; }
+        }
+
+        public class PredictionItem
+        {
+            public string position { get; set; }
+            public string predicted_class { get; set; }
+            public Dictionary<string, double> probabilities { get; set; }
+        }
+        private async void btnPredict_Click(object sender, EventArgs e)
+        {
+            // 1) Validate
+            if (latestUploadBatch == null || latestUploadBatch.Count == 0)
+            {
+                MessageBox.Show("No batch found! Run the Test Sequence first.", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2) Get selected material and submaterial
+            var mat = SelectedMaterial;
+            if (mat == null)
+            {
+                MessageBox.Show("Please select a material first.",
+                                "Missing Material",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
+            //var materialName= mat.Name;
+            int materialId = mat.Id;
+
+            // 3) Build prediction sample list (position, absorbance)
+            var predictSamples = latestUploadBatch.Select(s => new
+            {
+                position = s.position,
+                absorbance = s.absorbance
+            }).ToList();
+
+            // 4) Build request object
+            var predictRequest = new
+            {
+                material_id = materialId,
+                //material_name = materialName,
+                //samples = predictSamples
+            };
+            var json = JsonConvert.SerializeObject(predictRequest);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // 5) Send to API
+            try
+            {
+                var response = await _apiClient.PostAsync("modeling/predict/", content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errBody = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Prediction failed: {errBody}", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var respJson = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<PredictionResponse>(respJson);
+
+                // 6) Dynamically build DataGridView columns based on returned probabilities
+                var dt = new DataTable();
+                dt.Columns.Add("Position");
+                dt.Columns.Add("Predicted Class");
+
+                // Get all class names that appear in any prediction
+                var allClassNames = new HashSet<string>();
+                foreach (var pred in result.predictions)
+                    foreach (var key in pred.probabilities.Keys)
+                        allClassNames.Add(key);
+
+                var classColumns = allClassNames.ToList();
+                classColumns.Sort();
+
+                foreach (var className in classColumns)
+                    dt.Columns.Add(className); // One column per class probability
+
+                // Add rows
+                foreach (var pred in result.predictions)
+                {
+                    var row = dt.NewRow();
+                    row["Position"] = pred.position;
+                    row["Predicted Class"] = pred.predicted_class;
+                    foreach (var className in classColumns)
+                    {
+                        if (pred.probabilities.TryGetValue(className, out double prob))
+                            row[className] = prob.ToString("P1"); // percent string
+                        else
+                            row[className] = "";
+                    }
+                    dt.Rows.Add(row);
+                }
+
+                dataGridView_Predicitons.DataSource = dt;
+                dataGridView_Predicitons.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Prediction error: {ex.Message}", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        #endregion
 
         /* 
          private async Task<AiModel> TrainAsync(string material, string subtype = null)

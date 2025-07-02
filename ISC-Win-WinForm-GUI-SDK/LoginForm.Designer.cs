@@ -35,12 +35,13 @@
             this.textBox_Pass = new System.Windows.Forms.TextBox();
             this.btnLogin = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label_User
             // 
             this.label_User.AutoSize = true;
-            this.label_User.Location = new System.Drawing.Point(21, 35);
+            this.label_User.Location = new System.Drawing.Point(101, 107);
             this.label_User.Name = "label_User";
             this.label_User.Size = new System.Drawing.Size(79, 16);
             this.label_User.TabIndex = 0;
@@ -49,7 +50,7 @@
             // label_Pass
             // 
             this.label_Pass.AutoSize = true;
-            this.label_Pass.Location = new System.Drawing.Point(21, 94);
+            this.label_Pass.Location = new System.Drawing.Point(101, 166);
             this.label_Pass.Name = "label_Pass";
             this.label_Pass.Size = new System.Drawing.Size(76, 16);
             this.label_Pass.TabIndex = 1;
@@ -57,22 +58,22 @@
             // 
             // textBox_User
             // 
-            this.textBox_User.Location = new System.Drawing.Point(126, 32);
+            this.textBox_User.Location = new System.Drawing.Point(206, 104);
             this.textBox_User.Name = "textBox_User";
             this.textBox_User.Size = new System.Drawing.Size(150, 22);
             this.textBox_User.TabIndex = 2;
             // 
             // textBox_Pass
             // 
-            this.textBox_Pass.Location = new System.Drawing.Point(126, 91);
-            this.textBox_Pass.PasswordChar = '*'; // para ocultar a senha
+            this.textBox_Pass.Location = new System.Drawing.Point(206, 163);
             this.textBox_Pass.Name = "textBox_Pass";
+            this.textBox_Pass.PasswordChar = '*';
             this.textBox_Pass.Size = new System.Drawing.Size(150, 22);
             this.textBox_Pass.TabIndex = 3;
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(45, 153);
+            this.btnLogin.Location = new System.Drawing.Point(125, 225);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(91, 39);
             this.btnLogin.TabIndex = 4;
@@ -82,7 +83,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(174, 153);
+            this.btnCancel.Location = new System.Drawing.Point(254, 225);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(91, 39);
             this.btnCancel.TabIndex = 5;
@@ -90,11 +91,23 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F);
+            this.label1.Location = new System.Drawing.Point(33, 63);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(394, 20);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Welcome! Please insert your Username and Password.";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(264, 211);
+            this.ClientSize = new System.Drawing.Size(468, 314);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.textBox_Pass);
@@ -117,5 +130,6 @@
         private System.Windows.Forms.TextBox textBox_Pass;
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Label label1;
     }
 }

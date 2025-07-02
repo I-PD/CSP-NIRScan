@@ -6,14 +6,10 @@ namespace ISC_Win_WinForm_GUI
 {
     partial class MainWindow
     {
-        /// <summary>
-        /// 設計工具所需的變數。
-        /// </summary>
+        
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// 清除任何使用中的資源。
-        /// </summary>
+        
         /// <param name="disposing">如果應該處置受控資源則為 true，否則為 false。</param>
         protected override void Dispose(bool disposing)
         {
@@ -26,10 +22,6 @@ namespace ISC_Win_WinForm_GUI
 
         #region Windows Form 設計工具產生的程式碼
 
-        /// <summary>
-        /// 此為設計工具支援所需的方法 - 請勿使用程式碼編輯器修改
-        /// 這個方法的內容。
-        /// </summary>
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
@@ -388,17 +380,18 @@ namespace ISC_Win_WinForm_GUI
             this.tabControl_MainFunctions = new System.Windows.Forms.TabControl();
             this.tabPage_PosData = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.label12 = new System.Windows.Forms.Label();
             this.label_ModelInfo = new System.Windows.Forms.Label();
             this.textBox_ModelInfo = new System.Windows.Forms.TextBox();
-            this.comboBox_Subtype = new System.Windows.Forms.ComboBox();
             this.labelUsername = new System.Windows.Forms.Label();
             this.comboBox_Material = new System.Windows.Forms.ComboBox();
             this.btnTrain = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
             this.labelModelingMaterial = new System.Windows.Forms.Label();
-            this.labelPredictions = new System.Windows.Forms.Label();
-            this.dataGridView_Predicitons = new System.Windows.Forms.DataGridView();
             this.btnPredict = new System.Windows.Forms.Button();
+            this.labelPredictions = new System.Windows.Forms.Label();
+            this.comboBox_ModelMaterial = new System.Windows.Forms.ComboBox();
+            this.dataGridView_Predicitons = new System.Windows.Forms.DataGridView();
+            this.label7 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.GroupBox_ScanAvg.SuspendLayout();
             this.tabPage_Utility.SuspendLayout();
@@ -850,6 +843,7 @@ namespace ISC_Win_WinForm_GUI
             this.textBox_ScanAvg.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolTip1.SetToolTip(this.textBox_ScanAvg, "The value is temporarily changed for scan only. Click \"Save to Config\" to save it" +
         " into the config permanently.");
+            this.textBox_ScanAvg.TextChanged += new System.EventHandler(this.textBox_ScanAvg_TextChanged);
             // 
             // label34
             // 
@@ -2438,6 +2432,7 @@ namespace ISC_Win_WinForm_GUI
             this.TextBox_LampStableTime.TabIndex = 3;
             this.TextBox_LampStableTime.Text = "625";
             this.TextBox_LampStableTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBox_LampStableTime.TextChanged += new System.EventHandler(this.TextBox_LampStableTime_TextChanged);
             // 
             // RadioButton_LampStableTime
             // 
@@ -2451,6 +2446,7 @@ namespace ISC_Win_WinForm_GUI
             this.RadioButton_LampStableTime.TabStop = true;
             this.RadioButton_LampStableTime.Text = "Lamp Stable Time  (Unit: ms, Default: 625)";
             this.RadioButton_LampStableTime.UseVisualStyleBackColor = true;
+            this.RadioButton_LampStableTime.CheckedChanged += new System.EventHandler(this.RadioButton_LampStableTime_CheckedChanged);
             // 
             // button_Undo
             // 
@@ -4359,6 +4355,7 @@ namespace ISC_Win_WinForm_GUI
             // 
             // dataGridView_Table
             // 
+            this.dataGridView_Table.AllowUserToAddRows = false;
             this.dataGridView_Table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_Table.Location = new System.Drawing.Point(22, 12);
             this.dataGridView_Table.Name = "dataGridView_Table";
@@ -4584,23 +4581,34 @@ namespace ISC_Win_WinForm_GUI
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.label12);
             this.splitContainer2.Panel1.Controls.Add(this.label_ModelInfo);
             this.splitContainer2.Panel1.Controls.Add(this.textBox_ModelInfo);
-            this.splitContainer2.Panel1.Controls.Add(this.comboBox_Subtype);
             this.splitContainer2.Panel1.Controls.Add(this.labelUsername);
             this.splitContainer2.Panel1.Controls.Add(this.comboBox_Material);
             this.splitContainer2.Panel1.Controls.Add(this.btnTrain);
-            this.splitContainer2.Panel1.Controls.Add(this.label7);
             this.splitContainer2.Panel1.Controls.Add(this.labelModelingMaterial);
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.btnPredict);
             this.splitContainer2.Panel2.Controls.Add(this.labelPredictions);
+            this.splitContainer2.Panel2.Controls.Add(this.comboBox_ModelMaterial);
             this.splitContainer2.Panel2.Controls.Add(this.dataGridView_Predicitons);
+            this.splitContainer2.Panel2.Controls.Add(this.label7);
             this.splitContainer2.Size = new System.Drawing.Size(1738, 912);
             this.splitContainer2.SplitterDistance = 903;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(32, 35);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(105, 24);
+            this.label12.TabIndex = 12;
+            this.label12.Text = "Username :";
             // 
             // label_ModelInfo
             // 
@@ -4620,18 +4628,10 @@ namespace ISC_Win_WinForm_GUI
             this.textBox_ModelInfo.Size = new System.Drawing.Size(545, 244);
             this.textBox_ModelInfo.TabIndex = 10;
             // 
-            // comboBox_Subtype
-            // 
-            this.comboBox_Subtype.FormattingEnabled = true;
-            this.comboBox_Subtype.Location = new System.Drawing.Point(132, 86);
-            this.comboBox_Subtype.Name = "comboBox_Subtype";
-            this.comboBox_Subtype.Size = new System.Drawing.Size(248, 23);
-            this.comboBox_Subtype.TabIndex = 9;
-            // 
             // labelUsername
             // 
             this.labelUsername.AutoSize = true;
-            this.labelUsername.Location = new System.Drawing.Point(697, 27);
+            this.labelUsername.Location = new System.Drawing.Point(157, 42);
             this.labelUsername.Name = "labelUsername";
             this.labelUsername.Size = new System.Drawing.Size(0, 17);
             this.labelUsername.TabIndex = 8;
@@ -4639,7 +4639,7 @@ namespace ISC_Win_WinForm_GUI
             // comboBox_Material
             // 
             this.comboBox_Material.FormattingEnabled = true;
-            this.comboBox_Material.Location = new System.Drawing.Point(132, 39);
+            this.comboBox_Material.Location = new System.Drawing.Point(129, 97);
             this.comboBox_Material.Name = "comboBox_Material";
             this.comboBox_Material.Size = new System.Drawing.Size(248, 23);
             this.comboBox_Material.TabIndex = 7;
@@ -4647,7 +4647,7 @@ namespace ISC_Win_WinForm_GUI
             // 
             // btnTrain
             // 
-            this.btnTrain.Location = new System.Drawing.Point(432, 42);
+            this.btnTrain.Location = new System.Drawing.Point(432, 90);
             this.btnTrain.Name = "btnTrain";
             this.btnTrain.Size = new System.Drawing.Size(149, 67);
             this.btnTrain.TabIndex = 6;
@@ -4655,25 +4655,25 @@ namespace ISC_Win_WinForm_GUI
             this.btnTrain.UseVisualStyleBackColor = true;
             this.btnTrain.Click += new System.EventHandler(this.btnTrain_Click);
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(32, 82);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(88, 24);
-            this.label7.TabIndex = 4;
-            this.label7.Text = "Subtype :";
-            // 
             // labelModelingMaterial
             // 
             this.labelModelingMaterial.AutoSize = true;
             this.labelModelingMaterial.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelModelingMaterial.Location = new System.Drawing.Point(32, 38);
+            this.labelModelingMaterial.Location = new System.Drawing.Point(32, 96);
             this.labelModelingMaterial.Name = "labelModelingMaterial";
             this.labelModelingMaterial.Size = new System.Drawing.Size(91, 24);
             this.labelModelingMaterial.TabIndex = 2;
             this.labelModelingMaterial.Text = "Material :";
+            // 
+            // btnPredict
+            // 
+            this.btnPredict.Location = new System.Drawing.Point(617, 345);
+            this.btnPredict.Name = "btnPredict";
+            this.btnPredict.Size = new System.Drawing.Size(149, 56);
+            this.btnPredict.TabIndex = 12;
+            this.btnPredict.Text = "Predict";
+            this.btnPredict.UseVisualStyleBackColor = true;
+            this.btnPredict.Click += new System.EventHandler(this.btnPredict_Click);
             // 
             // labelPredictions
             // 
@@ -4685,25 +4685,33 @@ namespace ISC_Win_WinForm_GUI
             this.labelPredictions.TabIndex = 3;
             this.labelPredictions.Text = "Predictions";
             // 
+            // comboBox_ModelMaterial
+            // 
+            this.comboBox_ModelMaterial.FormattingEnabled = true;
+            this.comboBox_ModelMaterial.Location = new System.Drawing.Point(487, 54);
+            this.comboBox_ModelMaterial.Name = "comboBox_ModelMaterial";
+            this.comboBox_ModelMaterial.Size = new System.Drawing.Size(248, 23);
+            this.comboBox_ModelMaterial.TabIndex = 9;
+            // 
             // dataGridView_Predicitons
             // 
             this.dataGridView_Predicitons.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_Predicitons.Location = new System.Drawing.Point(24, 96);
+            this.dataGridView_Predicitons.Location = new System.Drawing.Point(64, 109);
             this.dataGridView_Predicitons.Name = "dataGridView_Predicitons";
             this.dataGridView_Predicitons.RowHeadersWidth = 51;
             this.dataGridView_Predicitons.RowTemplate.Height = 24;
-            this.dataGridView_Predicitons.Size = new System.Drawing.Size(557, 595);
+            this.dataGridView_Predicitons.Size = new System.Drawing.Size(306, 595);
             this.dataGridView_Predicitons.TabIndex = 0;
             // 
-            // btnPredict
+            // label7
             // 
-            this.btnPredict.Location = new System.Drawing.Point(432, 27);
-            this.btnPredict.Name = "btnPredict";
-            this.btnPredict.Size = new System.Drawing.Size(149, 56);
-            this.btnPredict.TabIndex = 12;
-            this.btnPredict.Text = "Predict";
-            this.btnPredict.UseVisualStyleBackColor = true;
-            this.btnPredict.Click += new System.EventHandler(this.btnPredict_Click);
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(335, 54);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(145, 24);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "Model Material:";
             // 
             // MainWindow
             // 
@@ -5163,10 +5171,11 @@ namespace ISC_Win_WinForm_GUI
         private TextBox TextBox_FileNamePrefix2;
         private Label labelUsername;
         private ComboBox comboBox_Material;
-        private ComboBox comboBox_Subtype;
+        private ComboBox comboBox_ModelMaterial;
         private TextBox textBox_ModelInfo;
         private Label label_ModelInfo;
         private Button btnPredict;
+        private Label label12;
     }
 }
 

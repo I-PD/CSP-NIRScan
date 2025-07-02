@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.label_User = new System.Windows.Forms.Label();
             this.label_Pass = new System.Windows.Forms.Label();
             this.textBox_User = new System.Windows.Forms.TextBox();
@@ -64,6 +65,7 @@
             // textBox_Pass
             // 
             this.textBox_Pass.Location = new System.Drawing.Point(126, 91);
+            this.textBox_Pass.PasswordChar = '*'; // para ocultar a senha
             this.textBox_Pass.Name = "textBox_Pass";
             this.textBox_Pass.Size = new System.Drawing.Size(150, 22);
             this.textBox_Pass.TabIndex = 3;
@@ -92,15 +94,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(330, 264);
+            this.ClientSize = new System.Drawing.Size(264, 211);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.textBox_Pass);
             this.Controls.Add(this.textBox_User);
             this.Controls.Add(this.label_Pass);
             this.Controls.Add(this.label_User);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LoginForm";
-            this.Text = "LoginForm";
+            this.Text = "Login Page";
             this.ResumeLayout(false);
             this.PerformLayout();
 

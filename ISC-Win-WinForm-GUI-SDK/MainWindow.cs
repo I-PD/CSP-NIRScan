@@ -725,7 +725,6 @@ namespace ISC_Win_WinForm_GUI
         {
             ProgressWindowStart("Device Open", "Connecting to the device... \r\nPlease Wait!", false);
         }
-
         private void Device_Connected_Handler(String SerialNumber)
         {
             IsFetchingDeviceInfo = true;
@@ -1504,121 +1503,7 @@ namespace ISC_Win_WinForm_GUI
                 Device.Open(null);
             }
         }
-        /*private void RadioButton_RefNew_CheckedChanged(object sender, EventArgs e)
-        {
-            if (RadioButton_RefNew.Checked == true)
-            {
-                Manual_ContScan_UI_Con(false);
-                Button_Scan.Text = "Reference Scan";
-                ReferenceSelect = Scan.SCAN_REF_TYPE.SCAN_REF_NEW;
-                CheckBox_AutoGain.Checked = true;
-                RadioButton_Intensity.Checked = true;
-                RadioButton_Reflectance.Enabled = false;
-                RadioButton_Absorbance.Enabled = false;
-                RadioButton_Reference.Enabled = false;
-                RadioButton_LampOff.Enabled = false;
-                Check_Overlay.Checked = false;
-                Check_Overlay.Enabled = false;
-                //(ver depois)GroupBox_ContScan.Enabled = false;
-                GroupBox_SaveScan.Enabled = false;
-                CheckBox_SaveOneCSV.Enabled = false;
-                CheckBox_AverageCSV.Enabled = false;
-                //(ver depois)checkBox_StopOnError.Enabled = false;
-                //(ver depois)Text_ContScan.Text = "1";
-                //(ver depois)checkBox_AutoScan.Enabled = false;
-                //(add label_ref)label_ref.Visible = false;
-                Clear_Chart();
-            }
-            else
-            {
-                GroupBox_SaveScan.Enabled = true;
-                RadioButton_Reflectance.Enabled = true;
-                RadioButton_Absorbance.Enabled = true;
-                RadioButton_Reference.Enabled = true;
-                RadioButton_LampOff.Enabled = true;
-                Check_Overlay.Enabled = true;
-            }
-        }
-
-        private void RadioButton_RefPre_CheckedChanged(object sender, EventArgs e)
-        {
-            if (RadioButton_RefPre.Checked == false && sender != null)
-                return;
-            else if (Scan.IsLocalReferenceExist() == SDK.RETURN_PASS)
-            {
-                Scan.GetRefTime(Scan.SCAN_REF_TYPE.SCAN_REF_PREV);
-                Byte[] time = Scan.ReferenceScanDateTime;
-                if (time[0] != 0)
-                {
-                    pre_ref_time = "Previous reference was set: 20" + time[0].ToString() + "/" + time[1].ToString() + "/" + time[2].ToString()
-                    + " T " + time[3].ToString() + ":" + time[4].ToString() + ":" + time[5].ToString() + ", PGA = " + Scan.ReferencePGA.ToString();
-                    int localRefAutoPGAFlag = Scan.IsLocalRefScanAutoPGA();
-                    if (localRefAutoPGAFlag == 1)
-                        pre_ref_time += " (AutoPGA)";
-                    else if (localRefAutoPGAFlag == -1)
-                        pre_ref_time += " (FixedPGA)";
-                }
-
-                CheckBox_AutoGain.Checked = false;
-                ComboBox_PGAGain.SelectedItem = Scan.ReferencePGA.ToString();
-
-                Button_Scan.Text = "Scan";
-                Manual_ContScan_UI_Con(false);
-                ReferenceSelect = Scan.SCAN_REF_TYPE.SCAN_REF_PREV;
-                //(ver depois)GroupBox_ContScan.Enabled = true;
-                //(ver depois)Text_ContScan_TextChanged(null, null);
-
-                if (!String.IsNullOrEmpty(pre_ref_time))
-                {
-                    //(add label_ref)label_ref.Visible = true;
-                    //(add label_ref)label_ref.Text = pre_ref_time;
-                }
-                else
-                {
-                    //(add label_ref)label_ref.Visible = false;
-                }
-                RadioButton_RefPre.Enabled = true;
-                RadioButton_RefPre.Checked = true;
-            }
-            else
-            {
-                RadioButton_RefNew.Checked = true;
-                RadioButton_RefPre.Enabled = false;
-                //(add label_ref)label_ref.Text = "";
-                //(add label_ref)label_ref.Visible = false;
-            }
-        }
-        private void RadioButton_RefFac_CheckedChanged(object sender, EventArgs e)
-        {
-            if (Device.IsConnected() && RadioButton_RefFac.Checked == true)
-            {
-                GetBuildInRefTime();
-                // Checking if a valid ref cal flag
-                if (Device.DevInfo.RefCalRev == 0 || Device.DevInfo.RefCalRev == 255)
-                {
-                    Message.ShowWarning("There is no valid reference calibration data in the device!\n\nPlease do the reference calibration before a scan.\n\nSet to New/Previous Reference Scan Mode!");
-                    RadioButton_RefNew.Checked = true;
-                    return;
-                }
-
-                CheckBox_AutoGain.Checked = true;
-                Button_Scan.Text = "Scan";
-                Manual_ContScan_UI_Con(false);
-                ReferenceSelect = Scan.SCAN_REF_TYPE.SCAN_REF_BUILT_IN;
-                //(ver depois)GroupBox_ContScan.Enabled = true;
-                //(ver depois)Text_ContScan_TextChanged(null, null);
-                if (!String.IsNullOrEmpty(buildin_ref_time))
-                {
-                    //(add label_ref)label_ref.Visible = true;
-                    //(add label_ref)label_ref.Text = buildin_ref_time;
-                }
-                else
-                {
-                    //(add label_ref)label_ref.Visible = false;
-                }
-            }
-        }*/
-
+        
         #endregion
 
         #region Scan Config
@@ -1739,7 +1624,6 @@ namespace ISC_Win_WinForm_GUI
             SetScanConfig(ScanConfig.TargetConfig[TargetCfg_SelIndex], true, TargetCfg_SelIndex);
             TargetCfg_SelIndex = ListBox_TargetCfgs.SelectedIndex;
         }
-
         private void FillCfgDetailsContent()
         {
             Int32 i, NumSection = 0;
@@ -3920,155 +3804,6 @@ namespace ISC_Win_WinForm_GUI
             }
         }
 
-        /*private void RadioButton_SpectrumData_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton rBtn = sender as RadioButton;
-            if (rBtn == null || rBtn.Checked)
-            {
-                MyChart.Series.Clear();
-                MyChart.AxisX.Clear();
-                MyChart.AxisY.Clear();
-
-                int max_X = int.MinValue;
-                int min_X = int.MaxValue;
-                double max_Y = double.MinValue;
-                double min_Y = double.MaxValue;
-
-                List<GLineSeries> s = new List<GLineSeries>();
-                if (RadioButton_Reference.Checked)
-                    s = ChartData_RefIntensity;
-                else if (RadioButton_Intensity.Checked)
-                    s = ChartData_Intensity;
-                else if (RadioButton_Absorbance.Checked)
-                    s = ChartData_Absorbance;
-                else if (RadioButton_Reflectance.Checked)
-                    s = ChartData_Reflectance;
-
-                foreach (GLineSeries gl in s)
-                {
-                    foreach (CustomerVm v in gl.Values)
-                    {
-                        max_X = (v.x > max_X) ? (int)v.x : max_X;
-                        min_X = (v.x < min_X) ? (int)v.x : min_X;
-                        max_Y = (v.y > max_Y) ? v.y : max_Y;
-                        min_Y = (v.y < min_Y) ? v.y : min_Y;
-                    }
-                }
-
-                if (Scan.ScanConfigData.section != null)
-                {
-                    MyChart.AxisX.Add(new Axis
-                    {
-                        Title = "Wavelength (nm)",
-                        MinValue = min_X,
-                        MaxValue = max_X,
-                        Separator = new Separator
-                        {
-                            Step = 50,
-                            IsEnabled = false
-                        }
-                    });
-                }
-                else
-                {
-                    MyChart.AxisX.Add(new Axis
-                    {
-                        Title = "Wavelength (nm)",
-                        MinValue = Device.DevInfo.MinWavelength == 0 ? 900 : Device.DevInfo.MinWavelength,
-                        MaxValue = Device.DevInfo.MaxWavelength == 0 ? 1700 : Device.DevInfo.MaxWavelength,
-                        Separator = new Separator
-                        {
-                            Step = 50,
-                            IsEnabled = false
-                        }
-                    });
-                }
-
-                double amplitudeY = Math.Abs(max_Y - min_Y);
-                max_Y = max_Y + (0.1 * amplitudeY);
-                min_Y = min_Y - (0.1 * amplitudeY);
-
-                String labelY = "";
-                if (RadioButton_Intensity.Checked)
-                {
-                    labelY = "Intensity";
-                    if (ChartData_Intensity.Count == 0)
-                        Clear_Chart();
-                    else
-                        MyChart.Series.AddRange(ChartData_Intensity);
-                }
-                else if (RadioButton_Reference.Checked)
-                {
-                    labelY = "Reference";
-                    if (ChartData_RefIntensity.Count == 0)
-                        Clear_Chart();
-                    else
-                        MyChart.Series.AddRange(ChartData_RefIntensity);
-                }
-                else if (RadioButton_Absorbance.Checked)
-                {
-                    labelY = "Absorbance";
-                    if (ChartData_Absorbance.Count == 0)
-                        Clear_Chart();
-                    else
-                        MyChart.Series.AddRange(ChartData_Absorbance);
-                }
-                else if (RadioButton_Reflectance.Checked)
-                {
-                    labelY = "Reflectance";
-                    if (ChartData_Reflectance.Count == 0)
-                        Clear_Chart();
-                    else
-                        MyChart.Series.AddRange(ChartData_Reflectance);
-                }
-
-                if (RadioButton_Absorbance.Checked || RadioButton_Reflectance.Checked)
-                {
-                    if (max_Y != min_Y)
-                        MyChart.AxisY.Add(new Axis
-                        {
-                            Title = labelY,
-                            MinValue = min_Y,
-                            MaxValue = max_Y,
-                            LabelFormatter = chartLabelFormatFunc
-                        });
-                    else
-                        MyChart.AxisY.Add(new Axis
-                        {
-                            Title = labelY,
-                            LabelFormatter = chartLabelFormatFunc
-                        });
-                }
-                else
-                {
-                    if (max_Y != min_Y)
-                        MyChart.AxisY.Add(new Axis
-                        {
-                            Title = labelY,
-                            MinValue = min_Y,
-                            MaxValue = max_Y
-                        });
-                    else
-                        MyChart.AxisY.Add(new Axis { Title = labelY });
-                }
-
-                if (tabScanPositions.SelectedIndex == 2)
-                {
-                    RadioButton_Reference.Enabled = ChartData_RefIntensity.Count > 0;
-                    RadioButton_Intensity.Enabled = ChartData_Intensity.Count > 0;
-                    RadioButton_Absorbance.Enabled = ChartData_Absorbance.Count > 0;
-                    RadioButton_Reflectance.Enabled = ChartData_Reflectance.Count > 0;
-                }
-                else
-                {
-                    RadioButton_Reference.Enabled = true;
-                    RadioButton_Intensity.Enabled = true;
-                    RadioButton_Absorbance.Enabled = true;
-                    RadioButton_Reflectance.Enabled = true;
-                }
-            }
-        }*/
-
         private void RadioButton_SpectrumData_CheckedChanged(object sender, EventArgs e)
         {
             var rb = sender as RadioButton;
@@ -4932,105 +4667,7 @@ namespace ISC_Win_WinForm_GUI
         #endregion
 
         #region Start Scan
-        /*private void Button_Scan_Click(object sender, EventArgs e)
-        {
-            UserCancelScan = false;  // Clear this flag before scanning
-            SDK.IsConnectionChecking = false;
-
-            if (NewConfig == true || EditConfig == true)
-            {
-                EditConfig = false;
-                NewConfig = false;
-                Button_CfgCancel_Click(this, e);
-            }
-
-            if (Device.IsConnected())
-            {
-                Button_ClearAllErrors_Click(this, null); // Clear previous scan error
-                if (Button_Scan.Text == "Continuous" || Button_Scan.Text == "Scan Next")
-                {
-                    button_ExitCont.Visible = false;
-                    tabScanPositions.TabPages[0].Enabled = true;
-                    tabScanPositions.TabPages[1].Enabled = true;
-                    tabControl_MainFunctions.TabPages[1].Enabled = true;
-                }
-                else
-                {
-                    //(ver depois)TargetScanCounts = int.Parse(Text_ContScan.Text); // Set the target scan number
-                }
-
-                if (Text_ContScan.Text == "1" && Button_Scan.Text != "Scan Next")
-                {
-                    CheckBox_SaveOneCSV.Checked = false;
-                    CheckBox_AverageCSV.Checked = false;
-                }
-
-                if (CheckBox_SaveOneCSV.Checked)
-                    SaveOneCSVFile = true;
-
-                //if (RadioButton_RefNew.Checked || TargetScanCounts == 0) TargetScanCounts = 1;
-                //(ver depois)Text_ContScan.Text = (TargetScanCounts - ScannedCounts).ToString();
-
-                if (CheckBox_AutoGain.Checked == false)
-                {
-                    if (GetFW_LEVEL() < FW_LEVEL.LEVEL_2)//&& CheckBox_LampOn.Checked == true)
-                        Scan.SetPGAGain(GetPGA());
-                    else
-                        Scan.SetFixedPGAGain(true, GetPGA());
-                }
-                else
-                {
-                    if (GetFW_LEVEL() < FW_LEVEL.LEVEL_2)
-                        Scan.SetFixedPGAGain(false, GetPGA());
-                    else
-                        Scan.SetFixedPGAGain(true, 0); // This is set to auto PGA
-                }
-
-                if (bwScan.IsBusy != true)
-                    bwScan.RunWorkerAsync();
-                else
-                {
-                    String text = "Scanning in progress... \r\nPlease Wait!";
-                    MessageBox.Show(text, "Wait");
-                }
-                //(ver depois)Label_ContScan.Text = string.Empty;
-                if (!Check_Overlay.Checked && !checkBox_zoom.Checked)
-                {
-                    Chart_Refresh();
-                }
-            }
-            else
-            {
-                String text = "Please connect a device before performing scan!";
-                MessageBox.Show(text, "Warning");
-            }
-        }
-        private void button_ExitCont_Click(object sender, EventArgs e)
-        {
-            OneScanFileName = String.Empty;
-            AverageScanFileName = String.Empty;
-            AverageIntensity.Clear();
-            AverageAbsorbance.Clear();
-
-            if (TargetScanCounts > 1)
-            {
-                string msg = string.Format("Continuous Scan Terminated.\n\nSuccess: {0}\nFailed: {1}", ScannedCounts - ScanErrorCounts, ScanErrorCounts);
-                MessageBox.Show(msg, "Scan Completed", MessageBoxButtons.OK);
-            }
-
-            ScannedCounts = 0;
-            TargetScanCounts = 1;
-            //(ver depois)Text_ContScan.Text = TargetScanCounts.ToString();
-            //(ver depois)Label_ContScan.Text = String.Empty;
-            Button_Scan.Text = "Scan";
-            Manual_ContScan_UI_Con(false);
-            button_ClearPlots.Enabled = true;
-
-            tabScanPositions.TabPages[0].Enabled = true;
-            tabScanPositions.TabPages[1].Enabled = true;
-            tabControl_MainFunctions.TabPages[1].Enabled = true;
-            button_ExitCont.Visible = false;
-        }*/
+        
         private byte GetPGA()
         {
             byte pga = 64;
@@ -6924,7 +6561,7 @@ namespace ISC_Win_WinForm_GUI
                         RadioButton_Intensity.Enabled = true;
                         Check_Overlay.CheckedChanged -= Check_Overlay_CheckedChanged;
                         Check_Overlay.Checked = true;
-                        Check_Overlay.Visible = false;
+                        Check_Overlay.Visible = true;
                         Check_Overlay.CheckedChanged += Check_Overlay_CheckedChanged;
                         IsSavedScanData = true;
                         SavedScan_RefreshDataGridView();
@@ -7840,6 +7477,8 @@ namespace ISC_Win_WinForm_GUI
             return ret;
         }
 
+        #region Progress Window
+
         private ProgressBar PBW;
         public static event Action RequestPBWClose = null;
         internal static bool SendPBWClose { set { RequestPBWClose(); } }
@@ -7847,7 +7486,7 @@ namespace ISC_Win_WinForm_GUI
         public static event Action<String> RequestPBWContentChange = null;
         internal static String SendPBWContentChange { set { RequestPBWContentChange(value); } }
 
-        #region Progress Window
+        
         private void ProgressWindowStart(String title, String content, Boolean cancellable)
         {
             SystemBusy(true);
@@ -7911,8 +7550,6 @@ namespace ISC_Win_WinForm_GUI
             }));
         }
         #endregion
-
-        
 
         private void ListBox_LocalCfgs_MouseClick(object sender, MouseEventArgs e)
         {
@@ -8608,9 +8245,6 @@ namespace ISC_Win_WinForm_GUI
             }
         }
 
-
-       
-
         private void Button_ModelNameGet_MouseLeave(object sender, EventArgs e)
         {
             ModelNameGet_Click_Counts = 0;
@@ -8713,29 +8347,6 @@ namespace ISC_Win_WinForm_GUI
                 ["Humidity (%)"] = Scan.SensorData.Length > 2 ? Scan.SensorData[2] : (object)null,
                 ["Mode"] = label_ActiveConfig.Text.StartsWith("Column") ? "Column" : "Hadamard"
             };
-        }
-
-
-        public class ScanRecord
-        {
-            public string Position { get; set; }
-            public string Type { get; set; } //Reference ou Sample
-            public DateTime Timestamp { get; set; } //Date and time of scan
-            public string SampleName { get; set; }
-            public string Material { get; set; }
-
-            //public string Mode { get; set; } //Hadamard, Column ou Custom
-            //public double[] ScanValues { get; set; }
-
-            public double[] Reference { get; set; }
-            public double[] Intensity { get; set; }
-            public double[] Absorbance { get; set; }
-            public double[] Reflectance { get; set; }
-
-            public int MinWavelength { get; set; }
-            public int MaxWavelength { get; set; }
-
-            //public Dictionary<string, object> Parameters { get; set; }
         }
 
         public class UploadSample
@@ -8868,8 +8479,6 @@ namespace ISC_Win_WinForm_GUI
             dataGridView_Table.Columns.Add(modeCol);
         }
 
-        //private BindingList<ScanRecord> _sampleListRecords = new BindingList<ScanRecord>();
-
         private void dataGridView_Table_KeyDown(object sender, KeyEventArgs e)
         {
             // If no cell is active, bail out
@@ -8969,7 +8578,7 @@ namespace ISC_Win_WinForm_GUI
         {
             foreach (Control c in parent.Controls)
             {
-                if (c is CheckBox checkBox && checkBox.Checked && checkBox.Name.StartsWith("checkBox_Pos") && checkBox.TabIndex > 9)
+                if (c is CheckBox checkBox && checkBox.Checked && checkBox.Name.StartsWith("checkBox_Pos"))
                 {
                     checkBox.Checked = false;
                 }
@@ -9026,33 +8635,6 @@ namespace ISC_Win_WinForm_GUI
 
         #region G Code Para Printer
 
-        /*private Dictionary<string, (double X, double Y, double Z)> coordenadasPosicoes = new Dictionary<string, (double, double, double)>
-        {
-            { "Pos1", (197.0, -70.0, 7.0) },
-            { "Pos2", (157.0, -70.0, 7.0) },
-            { "Pos3", (197.0, -110.0, 7.0) },
-            { "Pos4", (157.0, -110.0, 7.0) },
-            { "Pos5", (197.0, -150.0, 7.0) },
-            { "Pos6", (157.0, -150.0, 7.0) },
-            { "Pos7", (87.0, -70.0, 7.0) },
-            { "Pos8", (47.0, -70.0, 7.0) },
-            { "Pos9", (87.0, -110.0, 7.0) },
-            { "Pos10", (47.0, -110.0, 7.0) },
-            { "Pos11", (87.0, -150.0, 7.0) },
-            { "Pos12", (47.0, -150.0, 7.0) },
-            { "Pos13", (197.0, -205.0, 7.0) },
-            { "Pos14", (157.0, -205.0, 7.0) },
-            { "Pos15", (197.0, -245.0, 7.0) },
-            { "Pos16", (157.0, -245.0, 7.0) },
-            { "Pos17", (197.0, -285.0, 7.0) },
-            { "Pos18", (157.0, -285.0, 7.0) },
-            { "Pos19", (84.0, -205.0, 7.0) },
-            { "Pos20", (44.0, -205.0, 7.0) },
-            { "Pos21", (84.0, -245.0, 7.0) },
-            { "Pos22", (44.0, -245.0, 7.0) },
-            { "Pos23", (84.0, -285.0, 7.0) },
-            { "Pos24", (44.0, -285.0, 7.0) }
-        };*/
         private Dictionary<string, (double X, double Y, double Z)> coordenadasPosicoes = new Dictionary<string, (double, double, double)>
         {
             { "Pos1", (199.0, -70.0, 8.0) },
@@ -9137,102 +8719,7 @@ namespace ISC_Win_WinForm_GUI
             string gcode = $"G1 X{coords.X} Y{coords.Y} Z{coords.Z} F2500";
             serialPort.WriteLine(gcode);
             await Task.Delay(6500);
-
-            /*2) M114 + ACK de fim de movimento
-            string confirmation = $"M114";
-            for (int i = 0; i < 10; i++)
-            {
-                serialPort.WriteLine(confirmation);
-                await Task.Delay(1000);
-                string response = serialPort.ReadLine();
-                if (response.Contains($"X{coords.X} Y{coords.Y} Z{coords.Z}"))
-                {
-                    return true;
-                }
-            }
-
-            try
-            {
-                // 2) Executa todo o I/O de série num Task separado
-                await Task.Run(() =>
-                {
-                    // limpa buffers antigos
-                    serialPort.DiscardInBuffer();
-
-                    // envia o movimento
-                    serialPort.WriteLine(gcode);
-
-                    // envia o M400 para só devolver OK quando terminar
-                    serialPort.WriteLine("M400");
-
-                    // garante que o ReadLine vai expirar após timeoutMs
-                    serialPort.ReadTimeout = timeoutMs;
-
-                    // lê linhas até ver "ok"
-                    while (true)
-                    {
-                        var line = serialPort.ReadLine().Trim().ToLower();
-                        if (line.Contains("ok"))
-                            break;
-                    }
-                });
-                // se chegámos aqui, recebemos o OK antes do timeout
-                return true;
-            }
-            catch (TimeoutException)
-            {
-                MessageBox.Show($"Printer did not confirm move to {posName} within {timeoutMs / 1000.0}s",
-                                "Timeout", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error moving to {posName}: {ex.Message}",
-                                "Serial Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-             
-            
-            // 2) parâmetro de timeout e tolerância
-            var timeout = TimeSpan.FromSeconds(30);
-            var tolerance = 0.5; // mm
-            var sw = Stopwatch.StartNew();
-
-            // descarta qualquer buffer antigo
-            serialPort.DiscardInBuffer();
-
-            // 3) polling M114
-            while (sw.Elapsed < timeout)
-            {
-                // pergunta posição
-                serialPort.WriteLine("M114");
-
-                await Task.Delay(500); // espera meio segundo para a impressora responder
-
-                // lê tudo o que estiver disponível
-                var raw = serialPort.ReadExisting();
-                foreach (var line in raw
-                    .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    if (!line.StartsWith("X:"))
-                        continue;
-
-                    // ex: "X:123.45 Y:67.89 Z:10.00 E:0.00 Count X:12345 Y:6789 Z:1000 ok"
-                    var parts = line.Split(' ');
-                    double x = double.Parse(parts[0].Substring(2), CultureInfo.InvariantCulture);
-                    double y = double.Parse(parts[1].Substring(2), CultureInfo.InvariantCulture);
-                    double z = double.Parse(parts[2].Substring(2), CultureInfo.InvariantCulture);
-
-                    // verifica se chegou
-                    if (Math.Abs(x - coords.X) <= tolerance &&
-                        Math.Abs(y - coords.Y) <= tolerance &&
-                        Math.Abs(z - coords.Z) <= tolerance)
-                    {
-                        return true;
-                    }
-                }
-            }*/
+                        
             return true;
         }
 
@@ -9418,7 +8905,7 @@ namespace ISC_Win_WinForm_GUI
             }
 
             button_TestSequence.Enabled = false;
-            this.Text = "Running sequence…";
+            //this.Text = "Running sequence…";
             LoadSavedScanList();
             SavedScan_RefreshDataGridView();
 
@@ -9470,13 +8957,8 @@ namespace ISC_Win_WinForm_GUI
                 }
 
                 // Lê e plota
-                //Scan.GetScanResult(false, true, null);
-
-                //String path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                //Dir_Scan_For_New = Path.Combine(path, "InnoSpectra", "Scan Results");
                 Scan.GetScanResult(IsSavedScanData, true, Dir_Scan_For_New);
-
-               
+                               
                 if (!firstScan)
                 {
                     var usp = new UploadSample
@@ -9520,12 +9002,12 @@ namespace ISC_Win_WinForm_GUI
                 }
             }
 
-            this.Text = "Uploading batch to server…";
+            //this.Text = "Uploading batch to server…";
+            ProgressWindowStart("Chemical Image", "Uploading batch to server, please wait…",false);
             latestUploadBatch = uploadList;
             // Serializa o array de UploadSample
             string batchJson = JsonConvert.SerializeObject(uploadList);
-            MessageBox.Show(batchJson, "Batch JSON to upload");
-            //var client = ApiClientHolder.Client;
+            //MessageBox.Show(batchJson, "Batch JSON to upload");
 
             try
             {
@@ -9542,7 +9024,7 @@ namespace ISC_Win_WinForm_GUI
             }
 
             // 3) Fetch heatmap de /api/heatmap/
-            this.Text = "Fetching chemical image…";
+            //this.Text = "Fetching chemical image…";
             try
             {
                 await LoadHeatmapAsync();
@@ -9556,6 +9038,7 @@ namespace ISC_Win_WinForm_GUI
             finally
             {
                 button_TestSequence.Enabled = true;
+                ProgressWindowCompleted();
             }
         }
 
@@ -9776,6 +9259,7 @@ namespace ISC_Win_WinForm_GUI
         private async void btnTrain_Click(object sender, EventArgs e)
         {
             btnTrain.Enabled = false;
+            ProgressWindowStart("Training", "Training model, please wait...", false);
             try
             {
                 // 1) get material name & subtype from the ComboBox
@@ -9788,36 +9272,10 @@ namespace ISC_Win_WinForm_GUI
                                     MessageBoxIcon.Warning);
                     return;
                 }
+
                 string materialName = mat.Name;
                 int materialId = mat.Id;
-                string subtype = comboBox_Subtype.SelectedItem as string;
-                string subtype_final = string.IsNullOrWhiteSpace(subtype)
-                 ? null
-                 : subtype;
 
-                /*var modelInfo = await TrainAsync(material, subtype_final);
-               var msg =
-                   $"Model trained!\n\n" +
-                   $"ID: {modelInfo.Id}\n" +
-                   $"Type: {modelInfo.ModelType}\n" +
-                   //$"Test Accuracy: {modelInfo.Performance.TestAccuracy:P1}\n\n" +
-                   $"Download URL:\n{modelInfo.DownloadUrl}\n\n" +
-                   $"S3 URI:\n{modelInfo.Model_s3_uri}\n\n" +
-                   $"Metadata URI:\n{modelInfo.Metadata_s3_uri}";
-
-               MessageBox.Show(msg, "Training Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-              MessageBox.Show(
-                   $"Modelo treinado! ID={modelInfo.Id}\n" +
-                   $"Tipo: {modelInfo.ModelType}\n" +
-                   $"Performance: {modelInfo.Performance:P1}");
-               MessageBox.Show(
-                   $"Modelo treinado! ID={modelInfo.Id}\n" +
-                   $"Tipo: {modelInfo.ModelType}\n" +
-                   $"Test Accuracy: {modelInfo.Performance.TestAccuracy:P1}\n" +
-                   $"(Other Scores: {modelInfo.Performance.CvAccuracy:P1})\n" +
-                   $"Download: {modelInfo.DownloadUrl}"
-                   );*/
                 // build payload
                 //var payload = new TrainRequest { Material = materialName };//, Subtype = subtype_final };
                 var payload = new TrainRequest { MaterialId = materialId };
@@ -9845,14 +9303,14 @@ namespace ISC_Win_WinForm_GUI
                 var modelInfo = JsonConvert.DeserializeObject<AiModel>(respJson);
 
                 textBox_ModelInfo.Text=
-                    $"Model Trained!\n\n" +
+                    $"Model Trained!\r\n" +
                     $"ID: {modelInfo.Id}\r\n" +
                     $"Type: {modelInfo.ModelType}\r\n" +
                     $"Download URL: {modelInfo.DownloadUrl}\r\n" +
                     $"S3 URI: {modelInfo.Model_s3_uri}\r\n" +
                     $"Metadata URI: {modelInfo.Metadata_s3_uri}";
 
-                var msg =
+                /*var msg =
                     $"Model trained!\n\n" +
                     $"ID: {modelInfo.Id}\n" +
                     $"Type: {modelInfo.ModelType}\n" +
@@ -9860,7 +9318,7 @@ namespace ISC_Win_WinForm_GUI
                     $"S3 URI:\n{modelInfo.Model_s3_uri}\n" +
                     $"Metadata URI:\n{modelInfo.Metadata_s3_uri}";
 
-                MessageBox.Show(msg, "Training Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(msg, "Training Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);*/
             }
             catch (Exception ex)
             {
@@ -9869,6 +9327,7 @@ namespace ISC_Win_WinForm_GUI
             finally
             {
                 btnTrain.Enabled = true;
+                ProgressWindowCompleted();
             }
         }
 
@@ -9880,10 +9339,6 @@ namespace ISC_Win_WinForm_GUI
             [JsonProperty("name")]
             public string Name { get; set; }
 
-            // subtype comes back as null or a string
-            //[JsonProperty("subtype")]
-            //public string Subtype { get; set; }
-            // subtype comes back as null or a string
             [JsonProperty("submaterial")]
             public string Submaterial { get; set; }
         }
@@ -9898,6 +9353,9 @@ namespace ISC_Win_WinForm_GUI
                 comboBox_Material.DisplayMember = "Name";
                 comboBox_Material.ValueMember = "Id";
                 comboBox_Material.DataSource = materials;
+                comboBox_ModelMaterial.DisplayMember = "Name";
+                comboBox_ModelMaterial.ValueMember = "Id";
+                comboBox_ModelMaterial.DataSource = materials;
 
                 // Display username
                 labelUsername.Text = _username;
@@ -9925,14 +9383,7 @@ namespace ISC_Win_WinForm_GUI
             if (materials.Any(m => m.Name == selectedMaterial.Name && string.IsNullOrEmpty(m.Submaterial)))
                 subtypes.Insert(0, "(None)");
 
-            comboBox_Subtype.DataSource = subtypes;
-
-            // Optionally select first subtype automatically
-            //if (subtypes.Count > 0)
-            //    comboBox_Subtype.SelectedIndex = 0;
-
-            // Show sample count for selected material & (first) subtype
-            //ShowSampleCount(selectedMaterial.Name, subtypes.FirstOrDefault());
+            comboBox_ModelMaterial.DataSource = subtypes;
         }
 
         #endregion
@@ -9950,6 +9401,9 @@ namespace ISC_Win_WinForm_GUI
             public string predicted_class { get; set; }
             public Dictionary<string, double> probabilities { get; set; }
         }
+
+        private MaterialDto SelectedModelMaterial => comboBox_ModelMaterial.SelectedItem as MaterialDto;
+
         private async void btnPredict_Click(object sender, EventArgs e)
         {
             // 1) Validate
@@ -9960,7 +9414,7 @@ namespace ISC_Win_WinForm_GUI
             }
 
             // 2) Get selected material and submaterial
-            var mat = SelectedMaterial;
+            var mat = SelectedModelMaterial;
             if (mat == null)
             {
                 MessageBox.Show("Please select a material first.",
@@ -9989,6 +9443,7 @@ namespace ISC_Win_WinForm_GUI
             var json = JsonConvert.SerializeObject(predictRequest);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+            ProgressWindowStart("Predicting", "Running predictions, please wait...", false);
             // 5) Send to API
             try
             {
@@ -10043,31 +9498,12 @@ namespace ISC_Win_WinForm_GUI
             {
                 MessageBox.Show($"Prediction error: {ex.Message}", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            finally
+            {
+                ProgressWindowCompleted();
+            }
         }
-
 
         #endregion
-
-        /* 
-         private async Task<AiModel> TrainAsync(string material, string subtype = null)
-        {
-
-            //var client = ApiClientHolder.Client;
-
-            var payload = new TrainRequest
-            {
-                Material = material,
-                //Subtype = subtype
-            };
-            var json = JsonConvert.SerializeObject(payload);
-
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _apiClient.PostAsync("modeling/train/", content);
-            response.EnsureSuccessStatusCode();
-
-            var respJson = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<AiModel>(respJson);
-        }
-        */
     }
 }

@@ -9307,8 +9307,7 @@ namespace ISC_Win_WinForm_GUI
                     $"ID: {modelInfo.Id}\r\n" +
                     $"Type: {modelInfo.ModelType}\r\n" +
                     $"Download URL: {modelInfo.DownloadUrl}\r\n" +
-                    $"S3 URI: {modelInfo.Model_s3_uri}\r\n" +
-                    $"Metadata URI: {modelInfo.Metadata_s3_uri}";
+                    $"S3 URI: {modelInfo.Model_s3_uri}\r\n";
 
                 /*var msg =
                     $"Model trained!\n\n" +
@@ -9367,7 +9366,7 @@ namespace ISC_Win_WinForm_GUI
             }
         }
 
-        private void comboBox_Material_SelectedIndexChanged(object sender, EventArgs e)
+        /*private void comboBox_Material_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedMaterial = comboBox_Material.SelectedItem as MaterialDto;
             if (selectedMaterial == null) return;
@@ -9384,7 +9383,7 @@ namespace ISC_Win_WinForm_GUI
                 subtypes.Insert(0, "(None)");
 
             comboBox_ModelMaterial.DataSource = subtypes;
-        }
+        }*/
 
         #endregion
 

@@ -4643,7 +4643,6 @@ namespace ISC_Win_WinForm_GUI
             this.comboBox_Material.Name = "comboBox_Material";
             this.comboBox_Material.Size = new System.Drawing.Size(248, 23);
             this.comboBox_Material.TabIndex = 7;
-            this.comboBox_Material.SelectedIndexChanged += new System.EventHandler(this.comboBox_Material_SelectedIndexChanged);
             // 
             // btnTrain
             // 
@@ -4715,8 +4714,7 @@ namespace ISC_Win_WinForm_GUI
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1746, 966);
             this.Controls.Add(this.label_ErrorStatus);
             this.Controls.Add(this.tabControl_MainFunctions);

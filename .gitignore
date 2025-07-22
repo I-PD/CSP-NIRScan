@@ -92,3 +92,6 @@ artifacts/
 # Tye
 .tye*
 
+/ISC-Win-WinForm-GUI-SDK/MainWindow.cs
+/ISC-Win-WinForm-GUI-SDK/MainWindow.Designer.cs
+/ISC-Win-WinForm-GUI-SDK/MainWindow.resx

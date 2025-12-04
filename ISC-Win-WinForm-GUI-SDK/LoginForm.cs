@@ -16,10 +16,10 @@ namespace ISC_Win_WinForm_GUI
         public LoginForm()
         {
             InitializeComponent();
-            // no Designer crie:
-            // - TextBox: txtUser, txtPass (PasswordChar='*')
-            // - Buttons: btnLogin, btnCancel
-            //btnLogin.Click += btnLogin_Click;
+
+            this.KeyPreview = true;
+            this.KeyDown += LoginForm_KeyDown;
+
             btnCancel.Click += (_, __) => { DialogResult = DialogResult.Cancel; };
         }
 
@@ -56,10 +56,7 @@ namespace ISC_Win_WinForm_GUI
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", JwtToken);
 
                 TokenManager.JwtToken = JwtToken;
-                this.Username = user;//textBox_User.Text.Trim();
-                // stamp the Bearer token onto the shared client
-                //client.DefaultRequestHeaders.Authorization =
-                //new AuthenticationHeaderValue("Bearer", JwtToken);
+                this.Username = user;
 
                 // after you set ApiClientHolder.Client.DefaultRequestHeaders…
                 DialogResult = DialogResult.OK;
@@ -75,6 +72,43 @@ namespace ISC_Win_WinForm_GUI
             // mesma lógica que tinhas no lambda do constructor:
             this.DialogResult = DialogResult.Cancel;
         }
+
+        private void LoginForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+
+                if (textBox_User.Focused)
+                {
+                    if (!string.IsNullOrWhiteSpace(textBox_User.Text))
+                        textBox_Pass.Focus();
+                    else
+                        MessageBox.Show("Please insert the username first.", "Warning");
+
+                    return;
+                }
+
+                if (textBox_Pass.Focused)
+                {
+                    if (string.IsNullOrWhiteSpace(textBox_User.Text))
+                    {
+                        MessageBox.Show("Username is missing.", "Warning");
+                        textBox_User.Focus();
+                        return;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(textBox_Pass.Text))
+                    {
+                        MessageBox.Show("Password is missing.", "Warning");
+                        return;
+                    }
+
+                    btnLogin.PerformClick();
+                }
+            }
+        }
+
 
     }
     public static class TokenManager

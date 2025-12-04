@@ -13,6 +13,7 @@ public class formResize
 {
     private List<Rectangle> arr_control_bounds = new List<Rectangle>();
     private List<String> arr_control_names = new List<String>();
+    private List<float> arr_control_font_sizes = new List<float>();
     private bool showRowHeader = false;
     public formResize(Form form)
     {
@@ -32,6 +33,7 @@ public class formResize
         {
             arr_control_bounds.Add(control.Bounds);
             arr_control_names.Add(control.Name);
+            arr_control_font_sizes.Add(control.Font.Size); //tamanho base deste controlo
         }
     }
     public void resize()
@@ -55,6 +57,8 @@ public class formResize
             if (control.GetType() == typeof(DataGridView))
                 dgv_Column_Adjust(((DataGridView)control), showRowHeader);
 
+            //Obteve "index" e já calculou Bounds, etc
+
             if (control.GetType() == typeof(LiveCharts.WinForms.CartesianChart))
             {
                 var chart = (LiveCharts.WinForms.CartesianChart)control;
@@ -62,10 +66,23 @@ public class formResize
                 {
                     chart.AxisX[0].FontSize = (float)(((Convert.ToDouble(fontSize) * form_ratio_width) / 2) + ((Convert.ToDouble(fontSize) * form_ratio_height) / 2));
                     chart.AxisY[0].FontSize = (float)(((Convert.ToDouble(fontSize) * form_ratio_width) / 2) + ((Convert.ToDouble(fontSize) * form_ratio_height) / 2));
+                    //chart.AxisX[0].FontSize = scaledSize;
+                    //chart.AxisY[0].FontSize = scaledSize;
                 }
             }
             else
-                control.Font = new System.Drawing.Font(form.Font.FontFamily, (float)(((Convert.ToDouble(fontSize) * form_ratio_width) / 2) + ((Convert.ToDouble(fontSize) * form_ratio_height) / 2)));
+            {
+                //control.Font = new System.Drawing.Font(form.Font.FontFamily, (float)(((Convert.ToDouble(fontSize) * form_ratio_width) / 2) + ((Convert.ToDouble(fontSize) * form_ratio_height) / 2)));
+                // usa o tamanho base deste controlo (não o do Form), preserva a família e o estilo
+                float baseSize = arr_control_font_sizes[index];
+                float scaledSize = (float)(((Convert.ToDouble(baseSize) * form_ratio_width) / 2) +
+                                           ((Convert.ToDouble(baseSize) * form_ratio_height) / 2));
+
+                // permite “opt-out” se precisares (ver nota abaixo)
+                if (!(control.Tag is string t && t == "FixedFont"))
+                    control.Font = new System.Drawing.Font(control.Font.FontFamily, scaledSize, control.Font.Style);
+            }
+                
         }
     }
     private void dgv_Column_Adjust(DataGridView dgv, bool showRowHeader)

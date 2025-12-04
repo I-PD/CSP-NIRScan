@@ -116,6 +116,7 @@
             this.Controls.Add(this.label_User);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LoginForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login Page";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -15,20 +15,37 @@ namespace ISC_Win_WinForm_GUI
         [STAThread]
         static void Main(string[] args)
         {
+            //MessageBox.Show(
+            //    "EXE: " + Application.ExecutablePath + "\n" +
+            //    "CFG: " + System.Configuration.ConfigurationManager
+            //              .OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None).FilePath + "\n\n" +
+            //    "ApiPythonExe=" + (System.Configuration.ConfigurationManager.AppSettings["ApiPythonExe"] ?? "<null>") + "\n" +
+            //    "ApiWorkingDir=" + (System.Configuration.ConfigurationManager.AppSettings["ApiWorkingDir"] ?? "<null>"),
+            //    "DEBUG"
+            //);
+
             // força ponto decimal por defeito
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
             CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
-            
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Exibir o LoginForm
-            var loginForm = new LoginForm();
-            if (loginForm.ShowDialog() != DialogResult.OK)
-                return;  // Sai se cancelar
+            Application.ApplicationExit += (_, __) => ApiBootstrap.StopApiIfStartedByUs();
 
-            //Se login OK, passa o token para a MainWindow
-            Application.Run(new MainWindow(args, TokenManager.JwtToken,loginForm.Username));
+            // Fluxo certo: Bootstrap (arranca/espera API) -> Login -> Main
+            Application.Run(new BootstrapForm(args));
+
+            //Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
+
+            //// Exibir o LoginForm
+            //var loginForm = new LoginForm();
+            //if (loginForm.ShowDialog() != DialogResult.OK)
+            //    return;  // Sai se cancelar
+
+            ////Se login OK, passa o token para a MainWindow
+            //Application.Run(new MainWindow(args, TokenManager.JwtToken,loginForm.Username));
         }
     }   
 }

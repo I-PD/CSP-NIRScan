@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace ISC_Win_WinForm_GUI
 {
-    public partial class ProgressBar : Form
+    public partial class ProgressBarForm : Form
     {
         private readonly int origFormWidth = 414;
         private readonly int origFormHeight = 175;
@@ -33,8 +33,8 @@ namespace ISC_Win_WinForm_GUI
 
         System.Timers.Timer onTopTimer = new System.Timers.Timer();
         public static event Action UserCancelRequest = null;
-        internal static bool SendUserCancelRequest { set { UserCancelRequest(); } }
-        public ProgressBar(String Title, String Content, Boolean Cancellable, double? scaleX, double? scaleY)
+        internal static bool SendUserCancelRequest { set { UserCancelRequest?.Invoke(); } }
+        public ProgressBarForm(String Title, String Content, Boolean Cancellable, double? scaleX, double? scaleY)
         {
             InitializeComponent();
             using (Graphics graphics = Graphics.FromHwnd(IntPtr.Zero))

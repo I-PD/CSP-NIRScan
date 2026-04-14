@@ -1,6 +1,6 @@
 ﻿namespace ISC_Win_WinForm_GUI
 {
-    partial class ProgressBar
+    partial class ProgressBarForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProgressBar));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProgressBarForm));
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.button_cancel = new System.Windows.Forms.Button();
             this.tb_content = new System.Windows.Forms.TextBox();
